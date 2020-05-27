@@ -12,11 +12,9 @@ public class LogicHub {
 
     private static LogicHub logicHub = null;
 
-    public static LogicHub getLogicHub() {
+    public synchronized static LogicHub getLogicHub() {
         if (logicHub == null) {
-            synchronized (LogicHub.class) {
-                logicHub = new LogicHub();
-            }
+            logicHub = new LogicHub();
         }
 
         return logicHub;
@@ -24,6 +22,7 @@ public class LogicHub {
 
     private LogicHub() {
         this.server = new Server(Data.host, Data.port);
+        server.connect();
     }
 
     public void start(Point2D startingPosition) {
