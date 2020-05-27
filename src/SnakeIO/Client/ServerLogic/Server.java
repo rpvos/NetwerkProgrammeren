@@ -1,4 +1,4 @@
-package SnakeIO.Client;
+package SnakeIO.Client.ServerLogic;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
