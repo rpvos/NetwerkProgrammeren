@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class GameScreen extends Application {
         this.logicHub = LogicHub.getLogicHub();
         this.keyPressed = new ArrayList<>();
 
-        logicHub.start(new Point2D.Double(20,20));
+        logicHub.start(new Point2D.Double(20, 20));
 
         this.canvas = new Canvas(640, 420);
         Group root = new Group(canvas);
@@ -75,6 +76,8 @@ public class GameScreen extends Application {
     }
 
     private void draw(FXGraphics2D graphics) {
+        graphics.setColor(Color.GRAY);
+        graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
         logicHub.draw(graphics);
     }
 
