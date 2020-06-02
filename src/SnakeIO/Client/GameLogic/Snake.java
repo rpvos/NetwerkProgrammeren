@@ -1,14 +1,18 @@
 package SnakeIO.Client.GameLogic;
 
+import SnakeIO.Client.Visual.GameObject;
+import org.jfree.fx.FXGraphics2D;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class Snake {
+public class Snake implements GameObject {
     private ArrayList<Point2D> positions;
     private final int SPEED = 1;
     private Directions direction;
     private boolean hasEaten;
     private boolean isDead;
+    private double timer;
 
     public Snake(Point2D startingPosition) {
         this.positions = new ArrayList<>();
@@ -16,12 +20,18 @@ public class Snake {
         this.direction = Directions.NORTH;
         this.hasEaten = false;
         this.isDead = false;
+        this.timer = 0;
     }
 
 
     public void update(double deltaTime) {
-        if (!isDead)
-            move();
+        if (!isDead) {
+            timer += deltaTime;
+            if (timer >= 1.0 / SPEED) {
+                move();
+                timer -= 1.0 / SPEED;
+            }
+        }
     }
 
     private void move() {
@@ -63,5 +73,12 @@ public class Snake {
 
     public void setHasEaten(boolean hasEaten) {
         this.hasEaten = hasEaten;
+    }
+
+    public void draw(FXGraphics2D graphics) {
+        for (Point2D pos : positions) {
+            graphics.drawRect(20 * (int) pos.getX(), 20 * (int) pos.getY(), 20, 20);
+        }
+        ;
     }
 }
