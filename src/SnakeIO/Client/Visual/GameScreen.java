@@ -7,7 +7,12 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
@@ -19,6 +24,7 @@ public class GameScreen extends Application {
     private Canvas canvas;
     private ArrayList<String> keyPressed;
     private LogicHub logicHub;
+    private AnimationTimer animationTimer;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -29,18 +35,18 @@ public class GameScreen extends Application {
 
         this.canvas = new Canvas(640, 420);
         Group root = new Group(canvas);
-        Scene scene = new Scene(root);
+        Scene gameScene = new Scene(root);
 
-        scene.setOnKeyPressed(event -> {
+        gameScene.setOnKeyPressed(event -> {
             if (!keyPressed.contains(event.getCode().toString())) {
                 keyPressed.add(event.getCode().toString());
                 setDirection(event);
             }
         });
 
-        scene.setOnKeyReleased(event -> keyPressed.remove(event.getCode().toString()));
+        gameScene.setOnKeyReleased(event -> keyPressed.remove(event.getCode().toString()));
 
-        new AnimationTimer() {
+        this.animationTimer = new AnimationTimer() {
             long last = -1;
 
             @Override
@@ -52,9 +58,28 @@ public class GameScreen extends Application {
 
                 draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
             }
-        }.start();
+        };
 
-        primaryStage.setScene(scene);
+        BorderPane gridPane = new BorderPane();
+        VBox vBox = new VBox();
+        Label label = new Label("Username:");
+        TextField textField = new TextField();
+        Button button = new Button("Start");
+        button.setOnAction(event -> {
+            logicHub.setUsername(textField.getText());
+            primaryStage.setScene(gameScene);
+            animationTimer.start();
+            primaryStage.show();
+        });
+
+        vBox.getChildren().add(label);
+        vBox.getChildren().add(textField);
+        vBox.getChildren().add(button);
+
+        gridPane.setCenter(vBox);
+
+        Scene menuScene = new Scene(gridPane);
+        primaryStage.setScene(menuScene);
         primaryStage.show();
     }
 
@@ -77,7 +102,7 @@ public class GameScreen extends Application {
 
     private void draw(FXGraphics2D graphics) {
         graphics.setColor(Color.GRAY);
-        graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
+        graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
         logicHub.draw(graphics);
     }
 

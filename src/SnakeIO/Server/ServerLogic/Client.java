@@ -34,6 +34,7 @@ public class Client {
                 }
 
             } catch (IOException e) {
+                //todo implement good disconnect handling
                 e.printStackTrace();
             }
         });
@@ -43,7 +44,6 @@ public class Client {
                 this.dout = new DataOutputStream(socket.getOutputStream());
 
                 dout.writeUTF("Connected successfully to " + Data.serverName);
-                dout.writeUTF("Username: ");
 
                 //todo send data here
             } catch (IOException e) {

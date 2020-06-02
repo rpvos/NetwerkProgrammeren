@@ -1,5 +1,6 @@
 package SnakeIO.Client;
 
+import SnakeIO.Client.GameLogic.Fruit;
 import SnakeIO.Client.GameLogic.Snake;
 import SnakeIO.Client.ServerLogic.Server;
 import SnakeIO.Client.Visual.GameObject;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 
 public class LogicHub {
     private Snake snake;
+    private ArrayList<Fruit> fruits;
     private Server server;
 
     private ArrayList<GameObject> gameObjects;
@@ -28,28 +30,34 @@ public class LogicHub {
     private LogicHub() {
         this.server = new Server(Data.host, Data.port);
         this.gameObjects = new ArrayList<>();
+        this.fruits = new ArrayList<>();
         server.connect();
     }
 
     public void start(Point2D startingPosition) {
         snake = new Snake(startingPosition);
-        gameObjects.add(snake);
+    }
+
+    public void update(double deltaTime) {
+        snake.update(deltaTime);
+    }
+
+    public void draw(FXGraphics2D graphics) {
+        for (Fruit fruit : fruits) {
+            fruit.draw(graphics);
+        }
+        snake.draw(graphics);
     }
 
     public Snake getSnake() {
         return snake;
     }
 
-
-    public void update(double deltaTime) {
-        for (GameObject gameObject : gameObjects) {
-            gameObject.update(deltaTime);
-        }
+    public void setFruits(ArrayList<Fruit> fruits) {
+        this.fruits = fruits;
     }
 
-    public void draw(FXGraphics2D graphics) {
-        for (GameObject gameObject : gameObjects) {
-            gameObject.draw(graphics);
-        }
+    public void setUsername(String username) {
+        server.setUsername(username);
     }
 }

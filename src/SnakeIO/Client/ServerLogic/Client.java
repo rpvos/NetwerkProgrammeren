@@ -2,7 +2,6 @@ package SnakeIO.Client.ServerLogic;
 
 import SnakeIO.Client.LogicHub;
 import SnakeIO.Client.Visual.GameScreen;
-import SnakeIO.Data;
 
 import static javafx.application.Application.launch;
 

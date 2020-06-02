@@ -34,10 +34,14 @@ public class Server {
             inputThread = new Thread(() -> {
                 try {
                     this.din = new DataInputStream(socket.getInputStream());
+                    System.out.println(din.readUTF());
 
                     while (true) {
                         System.out.println(din.readUTF());
-                        //todo receive data
+                        //todo receive if there was a collision between this snake head and another snake body
+                        //todo receive if snake has eaten a fruit
+                        //todo receive fruit positions and snake positions
+                        //todo set the fruit positions of the logic hub
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -48,10 +52,9 @@ public class Server {
                 try {
                     this.dout = new DataOutputStream(socket.getOutputStream());
 
-                    Scanner scanner = new Scanner(System.in);
                     while (true) {
-                        dout.writeUTF(scanner.nextLine());
-                        //todo send data
+                        //todo send snake postitions
+//                        dout
                     }
 
                 } catch (IOException e) {
@@ -62,6 +65,14 @@ public class Server {
             inputThread.start();
             outputThread.start();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setUsername(String username) {
+        try {
+            dout.writeUTF(username);
         } catch (IOException e) {
             e.printStackTrace();
         }

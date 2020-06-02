@@ -72,8 +72,8 @@ public class Snake implements GameObject {
         this.direction = direction;
     }
 
-    public void setHasEaten(boolean hasEaten) {
-        this.hasEaten = hasEaten;
+    public void hasEaten() {
+        this.hasEaten = true;
     }
 
     public void draw(FXGraphics2D graphics) {
