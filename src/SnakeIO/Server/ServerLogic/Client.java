@@ -31,7 +31,7 @@ public class Client {
         this.socket = socket;
 
         this.gamefield = gameField;
-        this.snake = null;
+        this.snake = new Snake(new Point2D.Double(20,20));//todo communicate this with client where the snake spawns
         this.direction = null;
 
         this.inputThread = new Thread(() -> {
@@ -43,14 +43,13 @@ public class Client {
 
                 while (running) {
                     String input = din.readUTF();
-                    System.out.println(username + ": " + input);
                     //check if the message is "closing connection"
                     if (input.equals("closing connection")) {
                         //if it is this close all the streams
                         disconnect();
                     } else {
                         //else it is snake direction or the snake positions
-                        this.direction = Directions.valueOf(din.readUTF());
+                        this.direction = Directions.valueOf(input);
                         //receive how many segments the snake has
                         int amount = din.readInt();
                         for (int i = 0; i < amount; i++) {

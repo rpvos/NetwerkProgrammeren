@@ -34,17 +34,17 @@ public class Server {
         this.din = null;
         this.dout = null;
 
-        this.running = false;
+        this.running = true;
     }
 
     public void connect() {
         try {
             Socket socket = new Socket(host, port);
-            this.running = true;
+
+            this.din = new DataInputStream(socket.getInputStream());
 
             inputThread = new Thread(() -> {
                 try {
-                    this.din = new DataInputStream(socket.getInputStream());
                     System.out.println(din.readUTF());
 
                     while (running) {
@@ -59,9 +59,11 @@ public class Server {
                 }
             });
 
+
+            this.dout = new DataOutputStream(socket.getOutputStream());
+
             outputThread = new Thread(() -> {
                 try {
-                    this.dout = new DataOutputStream(socket.getOutputStream());
 
                     while (running) {
                         Snake snake = LogicHub.getLogicHub().getSnake();
@@ -83,9 +85,6 @@ public class Server {
                 }
             });
 
-            inputThread.start();
-            outputThread.start();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,6 +96,11 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void start() {
+        inputThread.start();
+        outputThread.start();
     }
 
     public void disconnect() {

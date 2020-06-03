@@ -35,7 +35,7 @@ public class LogicHub {
     }
 
     public void start(Point2D startingPosition) {
-        snake = new Snake(startingPosition);
+        this.snake = new Snake(startingPosition);
     }
 
     public void update(double deltaTime) {
@@ -59,6 +59,7 @@ public class LogicHub {
 
     public void setUsername(String username) {
         server.setUsername(username);
+        this.server.start();
     }
 
     public void disconnect() {
