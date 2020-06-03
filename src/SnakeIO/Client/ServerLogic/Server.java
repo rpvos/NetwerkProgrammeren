@@ -1,9 +1,15 @@
 package SnakeIO.Client.ServerLogic;
 
+import SnakeIO.Client.GameLogic.Snake;
+import SnakeIO.Client.LogicHub;
+import sun.rmi.runtime.Log;
+
+import java.awt.geom.Point2D;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Server {
@@ -17,6 +23,7 @@ public class Server {
     private DataOutputStream dout;
     private boolean running;
 
+
     public Server(String host, int port) {
         this.host = host;
         this.port = port;
@@ -27,12 +34,13 @@ public class Server {
         this.din = null;
         this.dout = null;
 
-        this.running = true;
+        this.running = false;
     }
 
     public void connect() {
         try {
             Socket socket = new Socket(host, port);
+            this.running = true;
 
             inputThread = new Thread(() -> {
                 try {
@@ -56,9 +64,18 @@ public class Server {
                     this.dout = new DataOutputStream(socket.getOutputStream());
 
                     while (running) {
-                        //todo send snake direction
-                        //todo send snake postitions
-//                        dout
+                        Snake snake = LogicHub.getLogicHub().getSnake();
+                        //send direction
+                        dout.writeUTF(snake.getDirection().toString());
+
+                        ArrayList<Point2D> positions = snake.getPositions();
+                        //send amount of segments
+                        dout.writeInt(positions.size());
+                        //send individual segment
+                        for (Point2D pos : positions) {
+                            dout.writeInt((int) pos.getX());
+                            dout.writeInt((int) pos.getY());
+                        }
                     }
 
                 } catch (IOException e) {

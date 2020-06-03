@@ -1,14 +1,12 @@
 package SnakeIO.Server.GameLogic;
 
-import SnakeIO.Client.GameLogic.Directions;
-import SnakeIO.Client.Visual.GameObject;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class Snake implements GameObject {
+public class Snake {
     private ArrayList<Point2D> positions;
     private final int SPEED = 1;
     private Directions direction;
@@ -69,6 +67,10 @@ public class Snake implements GameObject {
 
     }
 
+    public void setPositions(ArrayList<Point2D> positions) {
+        this.positions = positions;
+    }
+
     public void setDirection(Directions direction) {
         this.direction = direction;
     }
@@ -78,13 +80,6 @@ public class Snake implements GameObject {
         //todo notify the client that the snake has eaten
     }
 
-    public void draw(FXGraphics2D graphics) {
-        for (Point2D pos : positions) {
-            graphics.setColor(Color.RED);
-            graphics.fillRect(20 * (int) pos.getX(), 20 * (int) pos.getY(), 20, 20);
-        }
-        ;
-    }
 
     public boolean collide(Point2D point) {
         for (Point2D pos : positions) {

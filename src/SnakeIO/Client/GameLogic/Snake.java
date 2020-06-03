@@ -15,6 +15,7 @@ public class Snake implements GameObject {
     private boolean isDead;
     private double timer;
     private double playingfieldSize = 20;
+    private final int SIZE = 20;
 
     public Snake(Point2D startingPosition) {
         this.positions = new ArrayList<>();
@@ -92,8 +93,15 @@ public class Snake implements GameObject {
     public void draw(FXGraphics2D graphics) {
         for (Point2D pos : positions) {
             graphics.setColor(Color.RED);
-            graphics.fillRect(20 * (int) pos.getX(), 20 * (int) pos.getY(), 20, 20);
+            graphics.fillRect((int)(SIZE * pos.getX() - SIZE/2), (int)(SIZE * pos.getY() - SIZE/2), SIZE, SIZE);
         }
-        ;
+    }
+
+    public Directions getDirection() {
+        return direction;
+    }
+
+    public ArrayList<Point2D> getPositions() {
+        return positions;
     }
 }
