@@ -1,6 +1,7 @@
 package SnakeIO.Server.ServerLogic;
 
 import SnakeIO.Data;
+import SnakeIO.Server.GameLogic.GameField;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,8 +19,11 @@ public class Client {
 
     private String username;
 
-    public Client(Socket socket) {
+    private GameField gamefield;
+
+    public Client(Socket socket, GameField gameField) {
         this.socket = socket;
+        this.gamefield = gameField;
 
 
         this.inputThread = new Thread(() -> {
@@ -28,9 +32,9 @@ public class Client {
                 this.username = this.din.readUTF();
 
                 while (true) {
-                    System.out.println(username + ": " + din.readUTF());
-
-                    //todo receive data here
+                    String input = din.readUTF();
+                    System.out.println(username + ": " + input);
+                    //todo receive snake positions
                 }
 
             } catch (IOException e) {
@@ -45,7 +49,11 @@ public class Client {
 
                 dout.writeUTF("Connected successfully to " + Data.serverName);
 
-                //todo send data here
+                while(true){
+                    //todo step 1 send if there was a collision between this snake head and another snake body
+                    //todo step 2 send if snake has eaten a fruit
+                    //todo step 3 send fruit positions and snake positions
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

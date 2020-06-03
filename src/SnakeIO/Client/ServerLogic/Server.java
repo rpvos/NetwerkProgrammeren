@@ -15,6 +15,7 @@ public class Server {
 
     private DataInputStream din;
     private DataOutputStream dout;
+    private boolean running;
 
     public Server(String host, int port) {
         this.host = host;
@@ -25,6 +26,8 @@ public class Server {
 
         this.din = null;
         this.dout = null;
+
+        this.running = true;
     }
 
     public void connect() {
@@ -36,12 +39,12 @@ public class Server {
                     this.din = new DataInputStream(socket.getInputStream());
                     System.out.println(din.readUTF());
 
-                    while (true) {
+                    while (running) {
                         System.out.println(din.readUTF());
-                        //todo receive if there was a collision between this snake head and another snake body
-                        //todo receive if snake has eaten a fruit
-                        //todo receive fruit positions and snake positions
-                        //todo set the fruit positions of the logic hub
+                        //todo step 1 receive if there was a collision between this snake head and another snake body
+                        //todo step 2 receive if snake has eaten a fruit
+                        //todo step 3 receive fruit positions and snake positions
+                        //todo step 4 set the fruit positions of the logic hub
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -52,7 +55,7 @@ public class Server {
                 try {
                     this.dout = new DataOutputStream(socket.getOutputStream());
 
-                    while (true) {
+                    while (running) {
                         //todo send snake postitions
 //                        dout
                     }
@@ -76,5 +79,19 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void disconnect() {
+        running = false;
+
+        try {
+            dout.writeUTF("close connection");
+
+            din.close();
+            dout.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

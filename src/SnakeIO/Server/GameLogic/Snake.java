@@ -1,5 +1,6 @@
-package SnakeIO.Client.GameLogic;
+package SnakeIO.Server.GameLogic;
 
+import SnakeIO.Client.GameLogic.Directions;
 import SnakeIO.Client.Visual.GameObject;
 import org.jfree.fx.FXGraphics2D;
 
@@ -14,7 +15,6 @@ public class Snake implements GameObject {
     private boolean hasEaten;
     private boolean isDead;
     private double timer;
-    private double playingfieldSize = 20;
 
     public Snake(Point2D startingPosition) {
         this.positions = new ArrayList<>();
@@ -47,31 +47,19 @@ public class Snake implements GameObject {
         switch (direction) {
 
             case NORTH:
-                if (head.getY() - SPEED < 0)
-                    isDead = true;
-                else
-                    head.setLocation(head.getX(), head.getY() - SPEED);
+                head.setLocation(head.getX(), head.getY() - SPEED);
 
                 break;
             case EAST:
-                if (head.getX() + SPEED > playingfieldSize)
-                    isDead = true;
-                else
-                    head.setLocation(head.getX() + SPEED, head.getY());
+                head.setLocation(head.getX() + SPEED, head.getY());
 
                 break;
             case SOUTH:
-                if (head.getY() + SPEED > playingfieldSize)
-                    isDead = true;
-                else
-                    head.setLocation(head.getX(), head.getY() + SPEED);
+                head.setLocation(head.getX(), head.getY() + SPEED);
 
                 break;
             case WEST:
-                if (head.getX() - SPEED < 0)
-                    isDead = true;
-                else
-                    head.setLocation(head.getX() - SPEED, head.getY());
+                head.setLocation(head.getX() - SPEED, head.getY());
 
                 break;
         }
@@ -87,6 +75,7 @@ public class Snake implements GameObject {
 
     public void hasEaten() {
         this.hasEaten = true;
+        //todo notify the client that the snake has eaten
     }
 
     public void draw(FXGraphics2D graphics) {
@@ -95,5 +84,13 @@ public class Snake implements GameObject {
             graphics.fillRect(20 * (int) pos.getX(), 20 * (int) pos.getY(), 20, 20);
         }
         ;
+    }
+
+    public boolean collide(Point2D point) {
+        for (Point2D pos : positions) {
+            if (pos.distance(point) < 1)
+                return true;
+        }
+        return false;
     }
 }

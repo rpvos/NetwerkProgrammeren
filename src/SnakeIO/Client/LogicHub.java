@@ -60,4 +60,8 @@ public class LogicHub {
     public void setUsername(String username) {
         server.setUsername(username);
     }
+
+    public void disconnect() {
+        server.disconnect();
+    }
 }

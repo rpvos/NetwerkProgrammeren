@@ -81,6 +81,10 @@ public class GameScreen extends Application {
         Scene menuScene = new Scene(gridPane);
         primaryStage.setScene(menuScene);
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(event -> {
+            logicHub.disconnect();
+        });
     }
 
     private void setDirection(KeyEvent event) {
@@ -109,6 +113,8 @@ public class GameScreen extends Application {
     private void update(double deltaTime) {
         logicHub.update(deltaTime);
     }
+
+
 
 
 }
