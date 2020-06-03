@@ -37,7 +37,7 @@ public class Client {
                     //todo check if the message is "closing connection"
                     //todo if it is this close all the streams
 
-                    //todo else it is normal data for the snake positions
+                    //todo else it is snake direction or the snake positions
                 }
 
             } catch (IOException e) {

@@ -56,6 +56,7 @@ public class Server {
                     this.dout = new DataOutputStream(socket.getOutputStream());
 
                     while (running) {
+                        //todo send snake direction
                         //todo send snake postitions
 //                        dout
                     }
