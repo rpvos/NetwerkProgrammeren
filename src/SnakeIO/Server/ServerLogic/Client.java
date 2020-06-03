@@ -34,7 +34,10 @@ public class Client {
                 while (true) {
                     String input = din.readUTF();
                     System.out.println(username + ": " + input);
-                    //todo receive snake positions
+                    //todo check if the message is "closing connection"
+                    //todo if it is this close all the streams
+
+                    //todo else it is normal data for the snake positions
                 }
 
             } catch (IOException e) {

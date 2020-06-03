@@ -85,7 +85,7 @@ public class Server {
         running = false;
 
         try {
-            dout.writeUTF("close connection");
+            dout.writeUTF("closing connection");
 
             din.close();
             dout.close();
