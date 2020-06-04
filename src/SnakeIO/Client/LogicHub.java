@@ -18,6 +18,7 @@ public class LogicHub {
     private ArrayList<GameObject> gameObjects;
 
     private static LogicHub logicHub = null;
+    private Point2D.Double startingPosition;
 
     public synchronized static LogicHub getLogicHub() {
         if (logicHub == null) {
@@ -34,19 +35,22 @@ public class LogicHub {
         server.connect();
     }
 
-    public void start(Point2D startingPosition) {
-        this.snake = new Snake(startingPosition);
+    public void start() {
+        this.server.startInput();
+
     }
 
     public void update(double deltaTime) {
-        snake.update(deltaTime);
+        if (snake != null)//todo ugly
+            snake.update(deltaTime);
     }
 
     public void draw(FXGraphics2D graphics) {
         for (Fruit fruit : fruits) {
             fruit.draw(graphics);
         }
-        snake.draw(graphics);
+        if (snake != null)//todo ugly
+            snake.draw(graphics);
     }
 
     public Snake getSnake() {
@@ -59,10 +63,15 @@ public class LogicHub {
 
     public void setUsername(String username) {
         server.setUsername(username);
-        this.server.start();
     }
 
     public void disconnect() {
         server.disconnect();
+    }
+
+    public void setStart(int x, int y) {
+        this.startingPosition = new Point2D.Double(x, y);
+        this.snake = new Snake(startingPosition);
+        this.server.startOutput();
     }
 }

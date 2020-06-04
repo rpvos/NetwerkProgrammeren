@@ -1,17 +1,20 @@
 package SnakeIO.Server.GameLogic;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class GameField {
-    private ArrayList<Snake> snakes;
-    private ArrayList<Point2D> fruits;
+    private static final double SIZE = 20;
     private final int playingfieldSize = 20;
     private final int maxFruits = 3;
 
+
+    private ArrayList<Snake> snakes;
+    private ArrayList<Point2D> fruits;
+
     public void addSnake(Snake snake) {
+        snake.setID(snakes.size());
         this.snakes.add(snake);
     }
 
@@ -29,13 +32,22 @@ public class GameField {
 
         //check if he collides with a snake
         for (Snake snake : snakes) {
-            //todo add collision detection with other snakes
+            int temp = 0;
+            Point2D head = snake.getHead();
+            for (Snake otherSnake : snakes) {
+                if (otherSnake.collide(head))
+                    temp++;
+            }
+
+            if (temp > 2)
+                snake.died();
         }
 
         //check if he eats a fruit
         for (Snake snake : snakes) {
+            Point2D head = snake.getHead();
             for (Point2D fruit : fruits) {
-                if(snake.collide(fruit))
+                if (head.distance(fruit) < SIZE / 2)
                     snake.hasEaten();
             }
         }
@@ -46,11 +58,12 @@ public class GameField {
         }
     }
 
-    private Point2D validSpot() {
+    public Point2D validSpot() {
         Random random = new Random();
         boolean foundPoint = false;
         Point2D point = new Point2D.Double();
-        while (!foundPoint) {
+        int tries = 0;
+        while (!foundPoint && tries < 10) {
             int x = random.nextInt(playingfieldSize);
             int y = random.nextInt(playingfieldSize);
             point.setLocation(x, y);
@@ -61,7 +74,13 @@ public class GameField {
             }
             if (!collision)
                 foundPoint = true;
+
+            tries++;
         }
         return point;
+    }
+
+    public static double getSIZE() {
+        return SIZE;
     }
 }

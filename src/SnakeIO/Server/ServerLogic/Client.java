@@ -6,7 +6,9 @@ import SnakeIO.Server.GameLogic.GameField;
 import SnakeIO.Server.GameLogic.Snake;
 
 import java.awt.geom.Point2D;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -31,7 +33,9 @@ public class Client {
         this.socket = socket;
 
         this.gamefield = gameField;
-        this.snake = new Snake(new Point2D.Double(20,20));//todo communicate this with client where the snake spawns
+        this.snake = new Snake(gameField.validSpot());
+        //todo communicate this with client where the snake spawns
+        this.gamefield.addSnake(snake);
         this.direction = null;
 
         this.inputThread = new Thread(() -> {
@@ -69,7 +73,6 @@ public class Client {
                 }
 
             } catch (IOException e) {
-                //todo implement good disconnect handling
                 e.printStackTrace();
             }
         });
@@ -79,6 +82,10 @@ public class Client {
                 this.dout = new DataOutputStream(socket.getOutputStream());
 
                 dout.writeUTF("Connected successfully to " + Data.serverName);
+
+                Point2D pos = gameField.validSpot();
+                dout.writeInt((int) pos.getX());
+                dout.writeInt((int) pos.getY());
 
                 while (running) {
                     //todo step 1 send if there was a collision between this snake head and another snake body

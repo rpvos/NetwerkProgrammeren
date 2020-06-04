@@ -31,7 +31,7 @@ public class GameScreen extends Application {
         this.logicHub = LogicHub.getLogicHub();
         this.keyPressed = new ArrayList<>();
 
-        logicHub.start(new Point2D.Double(20, 20));
+        logicHub.start();
 
         this.canvas = new Canvas(640, 420);
         Group root = new Group(canvas);

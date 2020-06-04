@@ -45,7 +45,13 @@ public class Server {
 
             inputThread = new Thread(() -> {
                 try {
+                    //display if connected succesfully
                     System.out.println(din.readUTF());
+
+                    //get the starting location of the snake
+                    int x = din.readInt();
+                    int y = din.readInt();
+                    LogicHub.getLogicHub().setStart(x,y);
 
                     while (running) {
                         System.out.println(din.readUTF());
@@ -98,9 +104,8 @@ public class Server {
         }
     }
 
-    public void start() {
+    public void startInput() {
         inputThread.start();
-        outputThread.start();
     }
 
     public void disconnect() {
@@ -115,5 +120,9 @@ public class Server {
             e.printStackTrace();
         }
 
+    }
+
+    public void startOutput() {
+        outputThread.start();
     }
 }

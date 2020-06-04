@@ -1,18 +1,18 @@
 package SnakeIO.Server.GameLogic;
 
-import org.jfree.fx.FXGraphics2D;
-
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class Snake {
+    private static final double SIZE = 20;
+    private static final int SPEED = 1;
+
     private ArrayList<Point2D> positions;
-    private final int SPEED = 1;
     private Directions direction;
     private boolean hasEaten;
     private boolean isDead;
     private double timer;
+    private int id;
 
     public Snake(Point2D startingPosition) {
         this.positions = new ArrayList<>();
@@ -68,7 +68,12 @@ public class Snake {
     }
 
     public void setPositions(ArrayList<Point2D> positions) {
-        this.positions = positions;
+
+        for (int i = 0; i < this.positions.size(); i++) {
+            if (this.positions.get(i).distance(positions.get(i)) < 2 * SIZE)
+                this.positions.get(i).setLocation(positions.get(i));
+        }
+
     }
 
     public void setDirection(Directions direction) {
@@ -80,12 +85,24 @@ public class Snake {
         //todo notify the client that the snake has eaten
     }
 
+    public Point2D getHead() {
+        return positions.get(0);
+    }
+
 
     public boolean collide(Point2D point) {
         for (Point2D pos : positions) {
-            if (pos.distance(point) < 1)
+            if (pos.distance(point) < SIZE / 2)
                 return true;
         }
         return false;
+    }
+
+    public void died() {
+        isDead = true;
+    }
+
+    public void setID(int id) {
+        this.id = id;
     }
 }
