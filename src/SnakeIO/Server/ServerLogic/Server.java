@@ -36,7 +36,7 @@ public class Server {
                 System.out.println("Waiting for clients");
                 Socket client = socket.accept();
 
-                clients.add(new Client(client,gameField));
+                clients.add(new Client(client,gameField,this));
                 System.out.println("Client connection from " + client.getInetAddress().getHostName());
             }
 

@@ -104,4 +104,8 @@ public class Snake implements GameObject {
     public ArrayList<Point2D> getPositions() {
         return positions;
     }
+
+    public boolean isDead() {
+        return isDead;
+    }
 }
