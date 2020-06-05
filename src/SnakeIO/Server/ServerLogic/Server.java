@@ -27,20 +27,20 @@ public class Server {
     }
 
     private void start() {
-        System.out.println("Starting server on port: " + this.port);
 
-        try {
-            ServerSocket socket = new ServerSocket(this.port);
+        try (
+                //make socket as resource so it closes automatically when an error occurs
+                ServerSocket socket = new ServerSocket(this.port);
+        ) {
+            System.out.printf("Starting server\n ip: %s\n port: %d\n", socket.getInetAddress(), port);
 
             while (running) {
                 System.out.println("Waiting for clients");
                 Socket client = socket.accept();
 
-                clients.add(new Client(client,gameField,this));
+                clients.add(new Client(client, gameField, this));
                 System.out.println("Client connection from " + client.getInetAddress().getHostName());
             }
-
-            socket.close();
 
         } catch (IOException e) {
             e.printStackTrace();

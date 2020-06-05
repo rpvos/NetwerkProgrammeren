@@ -1,6 +1,7 @@
 package SnakeIO.Client.GameLogic;
 
 import SnakeIO.Client.Visual.GameObject;
+import SnakeIO.Directions;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;

@@ -1,5 +1,7 @@
 package SnakeIO.Server.GameLogic;
 
+import SnakeIO.Directions;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
