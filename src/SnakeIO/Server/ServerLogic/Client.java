@@ -48,6 +48,7 @@ public class Client {
                 this.dIn = new DataInputStream(socket.getInputStream());
                 this.oIn = new ObjectInputStream(socket.getInputStream());
                 this.username = this.dIn.readUTF();
+                System.out.printf("User %s connected\n",this.username);
 
                 ArrayList<Point2D> positions = new ArrayList<>();
 

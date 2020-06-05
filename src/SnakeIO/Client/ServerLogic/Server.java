@@ -1,18 +1,12 @@
 package SnakeIO.Client.ServerLogic;
 
-import SnakeIO.Client.GameLogic.Fruit;
 import SnakeIO.Client.GameLogic.Snake;
 import SnakeIO.Client.LogicHub;
 import SnakeIO.Data;
-import sun.rmi.runtime.Log;
+import SnakeIO.DataSnake;
 
-import java.awt.geom.Point2D;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Server {
     private final String host;
@@ -21,10 +15,13 @@ public class Server {
     private Thread inputThread;
     private Thread outputThread;
 
-    private DataInputStream din;
-    private DataOutputStream dout;
-    private boolean running;
+    private DataInputStream dIn;
+    private DataOutputStream dOut;
 
+    private ObjectInputStream oIn;
+    private ObjectOutputStream oOut;
+
+    private boolean running;
 
     public Server(String host, int port) {
         this.host = host;
@@ -33,8 +30,11 @@ public class Server {
         this.inputThread = null;
         this.outputThread = null;
 
-        this.din = null;
-        this.dout = null;
+        this.dIn = null;
+        this.dOut = null;
+
+        this.oIn = null;
+        this.oOut = null;
 
         this.running = true;
     }
@@ -43,51 +43,42 @@ public class Server {
         try {
             Socket socket = new Socket(host, port);
 
-            this.din = new DataInputStream(socket.getInputStream());
+            this.dIn = new DataInputStream(socket.getInputStream());
+            this.oIn = new ObjectInputStream(socket.getInputStream());
 
             inputThread = new Thread(() -> {
                 try {
                     //display if connected succesfully
-                    System.out.println(din.readUTF());
+                    System.out.println(dIn.readUTF());
 
                     //get the starting location of the snake
-                    int x = din.readInt();
-                    int y = din.readInt();
+                    int x = dIn.readInt();
+                    int y = dIn.readInt();
                     LogicHub.getLogicHub().setStart(x,y);
+
+                    //data gotten from the server
+                    DataSnake dataSnake = (DataSnake) oIn.readObject();
+                    //the snake from the client
                     Snake snake = LogicHub.getLogicHub().getSnake();
 
+                    //if the server detected a collision the snake died
+                    if (dataSnake.isDead())
+                        snake.isDead();
 
-//                    while (running) {
-//                        System.out.println(din.readUTF());
-//                        //step 1 receive if there was a collision between this snake head and another snake body
-//                        if (din.readBoolean()){
-//                            snake.isDead();
-//                        }
-//
-//                        //step 2 receive if snake has eaten a fruit
-//                        if (din.readBoolean()){
-//                            snake.hasEaten();
-//                        }
-//                        // step 3 receive fruit positions and snake positions
-//                        ArrayList<Fruit> fruits = new ArrayList<>();
-//                        int amount = din.readInt();
-//                        for (int i = 0; i < amount; i++) {
-//                            //read x and y of the segment
-//                            fruits.add(new Fruit(new Point2D.Double(din.readInt(), din.readInt())));
-//                        }
-//                        // step 4 set the fruit positions of the logic hub
-//
-//                        LogicHub.getLogicHub().setFruits(fruits);
-//
-//
-//                    }
-                } catch (IOException e) {
+                    //if the server detected that e ate something, the snake is getting another part
+                    if (dataSnake.isAte())
+                        snake.hasEaten();
+
+                    //todo add fruit getting
+
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             });
 
 
-            this.dout = new DataOutputStream(socket.getOutputStream());
+            this.dOut = new DataOutputStream(socket.getOutputStream());
+            this.oOut = new ObjectOutputStream(socket.getOutputStream());
 
             outputThread = new Thread(() -> {
 //                try {
@@ -95,15 +86,15 @@ public class Server {
 //
 //                    while (running) {
 //                        //send direction
-//                        dout.writeUTF(snake.getDirection().toString());
+//                        dOut.writeUTF(snake.getDirection().toString());
 //
 //                        ArrayList<Point2D> positions = snake.getPositions();
 //                        //send amount of segments
-//                        dout.writeInt(positions.size());
+//                        dOut.writeInt(positions.size());
 //                        //send individual segment
 //                        for (Point2D pos : positions) {
-//                            dout.writeInt((int) pos.getX());
-//                            dout.writeInt((int) pos.getY());
+//                            dOut.writeInt((int) pos.getX());
+//                            dOut.writeInt((int) pos.getY());
 //                        }
 //                    }
 //
@@ -119,7 +110,7 @@ public class Server {
 
     public void setUsername(String username) {
         try {
-            dout.writeUTF(username);
+            dOut.writeUTF(username);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,10 +124,10 @@ public class Server {
         running = false;
 
         try {
-            dout.writeUTF(Data.CLOSINGCONNECTION);
+            dOut.writeUTF(Data.CLOSINGCONNECTION);
 
-            din.close();
-            dout.close();
+            dIn.close();
+            dOut.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

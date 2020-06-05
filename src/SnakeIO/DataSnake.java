@@ -11,13 +11,13 @@ public class DataSnake implements Serializable {
     private ArrayList<Point2D> snakePositions;
     private Directions direction;
 
-    private boolean hasEaten;
+    private boolean ate;
     private boolean isDead;
 
     public DataSnake(ArrayList<Point2D> snakePositions, Directions direction, boolean hasEaten, boolean isDead) {
         this.snakePositions = snakePositions;
         this.direction = direction;
-        this.hasEaten = hasEaten;
+        this.ate = hasEaten;
         this.isDead = isDead;
     }
 
@@ -29,8 +29,8 @@ public class DataSnake implements Serializable {
         return direction;
     }
 
-    public boolean isHasEaten() {
-        return hasEaten;
+    public boolean isAte() {
+        return ate;
     }
 
     public boolean isDead() {
