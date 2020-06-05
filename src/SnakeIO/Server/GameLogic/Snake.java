@@ -13,6 +13,7 @@ public class Snake {
     private boolean isDead;
     private double timer;
     private int id;
+    private boolean ate;
 
     public Snake(Point2D startingPosition) {
         this.positions = new ArrayList<>();
@@ -21,6 +22,7 @@ public class Snake {
         this.hasEaten = false;
         this.isDead = false;
         this.timer = 0;
+        this.ate= false;
     }
 
 
@@ -76,12 +78,21 @@ public class Snake {
 
     }
 
+    public ArrayList<Point2D> getPositions() {
+        return positions;
+    }
+
     public void setDirection(Directions direction) {
         this.direction = direction;
     }
 
+    public Directions getDirection() {
+        return direction;
+    }
+
     public void hasEaten() {
         this.hasEaten = true;
+        this.ate = true;
         //todo notify the client that the snake has eaten
     }
 
@@ -100,6 +111,19 @@ public class Snake {
 
     public void died() {
         isDead = true;
+        //todo notify the client that the snake has died
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public boolean isAte() {
+        boolean temp = this.ate;
+        if (this.ate == true){
+            this.ate = false;
+        }
+        return temp;
     }
 
     public void setID(int id) {

@@ -47,5 +47,9 @@ public class Server {
         }
     }
 
+    public ArrayList<Client> getClients() {
+        return clients;
+    }
+
 
 }

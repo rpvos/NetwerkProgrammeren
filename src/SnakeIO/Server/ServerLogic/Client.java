@@ -1,5 +1,6 @@
 package SnakeIO.Server.ServerLogic;
 
+import SnakeIO.Client.LogicHub;
 import SnakeIO.Data;
 import SnakeIO.Server.GameLogic.Directions;
 import SnakeIO.Server.GameLogic.GameField;
@@ -28,13 +29,17 @@ public class Client {
     private Snake snake;
     private Directions direction;
 
-    public Client(Socket socket, GameField gameField) {
+    private Server server;
+
+    public Client(Socket socket, GameField gameField, Server server) {
         this.running = true;
         this.socket = socket;
 
+        this.server = server;
+
         this.gamefield = gameField;
         this.snake = new Snake(gameField.validSpot());
-        //todo communicate this with client where the snake spawns
+        //communicate this with client where the snake spawns
         this.gamefield.addSnake(snake);
         this.direction = null;
 
@@ -88,9 +93,36 @@ public class Client {
                 dout.writeInt((int) pos.getY());
 
                 while (running) {
-                    //todo step 1 send if there was a collision between this snake head and another snake body
-                    //todo step 2 send if snake has eaten a fruit
-                    //todo step 3 send fruit positions and snake positions
+                    //step 1 send if there was a collision between this snake head and another snake body
+                    dout.writeBoolean(this.snake.isDead());
+                    // step 2 send if snake has eaten a fruit
+                    dout.writeBoolean(this.snake.isAte());
+                    // step 3 send fruit positions and snake positions
+
+                    dout.writeInt(this.server.getClients().size());
+
+                    for (Client client : this.server.getClients()) {
+                        Snake snake = client.getSnake();
+
+                        //send direction
+                        dout.writeUTF(snake.getDirection().toString());
+
+                        ArrayList<Point2D> positions = snake.getPositions();
+                        //send amount of segments
+                        dout.writeInt(positions.size());
+                        //send individual segment
+                        for (Point2D posi : positions) {
+                            dout.writeInt((int) posi.getX());
+                            dout.writeInt((int) posi.getY());
+                        }
+                    }
+
+                    dout.writeInt(this.gamefield.getFruits().size());
+
+                    for (Point2D fruit: this.gamefield.getFruits()) {
+                        dout.writeInt((int)fruit.getY());
+                        dout.writeInt((int)fruit.getX());
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -101,6 +133,10 @@ public class Client {
         this.outputThread.start();
 
 
+    }
+
+    private Snake getSnake(){
+        return this.snake;
     }
 
     private void disconnect() {

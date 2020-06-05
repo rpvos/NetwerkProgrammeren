@@ -83,4 +83,10 @@ public class GameField {
     public static double getSIZE() {
         return SIZE;
     }
+
+    public ArrayList<Point2D> getFruits() {
+        return fruits;
+    }
+
+
 }
