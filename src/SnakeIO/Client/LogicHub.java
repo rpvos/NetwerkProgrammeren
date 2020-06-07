@@ -3,7 +3,6 @@ package SnakeIO.Client;
 import SnakeIO.Client.GameLogic.Fruit;
 import SnakeIO.Client.GameLogic.Snake;
 import SnakeIO.Client.ServerLogic.Server;
-import SnakeIO.Client.Visual.GameObject;
 import SnakeIO.Data;
 import SnakeIO.DataSnake;
 import org.jfree.fx.FXGraphics2D;
@@ -19,10 +18,7 @@ public class LogicHub {
     private ArrayList<Snake> otherSnakes;
     private Server server;
 
-    private ArrayList<GameObject> gameObjects;
-
     private static LogicHub logicHub = null;
-    private Point2D.Double startingPosition;
 
     public synchronized static LogicHub getLogicHub() {
         if (logicHub == null) {
@@ -34,7 +30,6 @@ public class LogicHub {
 
     private LogicHub() {
         this.server = new Server(Data.host, Data.port);
-        this.gameObjects = new ArrayList<>();
         this.fruits = new ArrayList<>();
         server.connect();
     }
@@ -53,6 +48,9 @@ public class LogicHub {
 
         if (snake != null)
             snake.update(deltaTime);
+
+        for (Snake snake : otherSnakes)
+            snake.update(deltaTime);
     }
 
     public void draw(FXGraphics2D graphics) {
@@ -61,6 +59,9 @@ public class LogicHub {
         }
 
         if (snake != null)
+            snake.draw(graphics);
+
+        for (Snake snake : otherSnakes)
             snake.draw(graphics);
     }
 
@@ -84,7 +85,7 @@ public class LogicHub {
     }
 
     public void setStart(int x, int y) {
-        this.startingPosition = new Point2D.Double(x, y);
+        Point2D.Double startingPosition = new Point2D.Double(x, y);
         this.snake = new Snake(startingPosition);
         this.server.startOutput();
     }

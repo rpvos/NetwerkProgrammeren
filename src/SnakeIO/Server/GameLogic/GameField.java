@@ -40,8 +40,7 @@ public class GameField {
             int temp = 0;
             Point2D head = snake.getHead();
 
-            for (Iterator<Snake> iterator = snakes.iterator(); iterator.hasNext(); ) {
-                Snake otherSnake = iterator.next();
+            for (Snake otherSnake : snakes) {
                 if (otherSnake.collide(head))
                     temp++;
             }

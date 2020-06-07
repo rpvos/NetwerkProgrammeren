@@ -16,9 +16,6 @@ public class Client {
     private boolean running;
     private Socket socket;
 
-    private Thread inputThread;
-    private Thread outputThread;
-
     private DataInputStream dIn;
     private DataOutputStream dOut;
     private ObjectInputStream oIn;
@@ -44,7 +41,11 @@ public class Client {
         this.gamefield.addSnake(snake);
         this.direction = null;
 
-        this.inputThread = new Thread(() -> {
+        //check if the message is "closing connection"
+        //if it is this close all the streams
+        //read in the data from snake
+        //set the direction of the snake and the location
+        Thread inputThread = new Thread(() -> {
             try {
                 this.dIn = new DataInputStream(socket.getInputStream());
                 this.oIn = new ObjectInputStream(socket.getInputStream());
@@ -80,7 +81,7 @@ public class Client {
             }
         });
 
-        this.outputThread = new Thread(() -> {
+        Thread outputThread = new Thread(() -> {
             try {
                 this.dOut = new DataOutputStream(socket.getOutputStream());
                 this.oOut = new ObjectOutputStream(socket.getOutputStream());
@@ -91,7 +92,7 @@ public class Client {
                 dOut.writeInt((int) pos.getX());
                 dOut.writeInt((int) pos.getY());
 
-                Timer timer = new Timer(1000);
+                Timer timer = new Timer();
 
                 while (running) {
                     if (timer.timeout()) {
@@ -125,8 +126,8 @@ public class Client {
             }
         });
 
-        this.inputThread.start();
-        this.outputThread.start();
+        inputThread.start();
+        outputThread.start();
 
 
     }

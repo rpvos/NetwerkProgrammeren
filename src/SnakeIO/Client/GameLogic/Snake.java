@@ -11,13 +11,13 @@ import java.util.ArrayList;
 
 public class Snake implements GameObject {
     private ArrayList<Point2D> positions;
-    private final int SPEED = 1;
+    private static final double TIME_TO_MOVE = 0.5;
+    private final int BLOCKSIZE = 20;
+
     private Directions direction;
     private boolean hasEaten;
     private boolean isDead;
     private double timer;
-    private double playingfieldSize = 20;
-    private final int SIZE = 20;
 
     public Snake(Point2D startingPosition) {
         this.positions = new ArrayList<>();
@@ -39,9 +39,9 @@ public class Snake implements GameObject {
     public void update(double deltaTime) {
         if (!isDead) {
             timer += deltaTime;
-            if (timer >= 1.0 / SPEED) {
+            if (timer >=TIME_TO_MOVE) {
                 move();
-                timer -= 1.0 / SPEED;
+                timer -= TIME_TO_MOVE;
             }
         }
     }
@@ -60,22 +60,24 @@ public class Snake implements GameObject {
             positions.set(i, positions.get(i - 1));
         }
 
+        double speed = 1;
+
         switch (direction) {
 
             case NORTH:
-                positions.set(0, new Point2D.Double(head.getX(), head.getY() - SPEED));
+                positions.set(0, new Point2D.Double(head.getX(), head.getY() - speed));
 
                 break;
             case EAST:
-                positions.set(0, new Point2D.Double(head.getX() + SPEED, head.getY()));
+                positions.set(0, new Point2D.Double(head.getX() + speed, head.getY()));
 
                 break;
             case SOUTH:
-                positions.set(0, new Point2D.Double(head.getX(), head.getY() + SPEED));
+                positions.set(0, new Point2D.Double(head.getX(), head.getY() + speed));
 
                 break;
             case WEST:
-                positions.set(0, new Point2D.Double(head.getX() - SPEED, head.getY()));
+                positions.set(0, new Point2D.Double(head.getX() - speed, head.getY()));
 
                 break;
         }
@@ -92,7 +94,7 @@ public class Snake implements GameObject {
     public void draw(FXGraphics2D graphics) {
         for (Point2D pos : positions) {
             graphics.setColor(Color.RED);
-            graphics.fillRect((int) (SIZE * pos.getX() - SIZE / 2), (int) (SIZE * pos.getY() - SIZE / 2), SIZE, SIZE);
+            graphics.fillRect((int) (BLOCKSIZE * pos.getX() - BLOCKSIZE / 2), (int) (BLOCKSIZE * pos.getY() - BLOCKSIZE / 2), BLOCKSIZE, BLOCKSIZE);
         }
     }
 

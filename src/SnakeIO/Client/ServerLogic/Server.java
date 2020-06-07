@@ -121,7 +121,7 @@ public class Server {
 
             outputThread = new Thread(() -> {
                 try {
-                    Timer timer = new Timer(1000);
+                    Timer timer = new Timer();
 
                     while (running) {
                         if (userNameIsSet) {

@@ -1,11 +1,11 @@
 package SnakeIO;
 
 public class Timer {
-    private int length;
+    private final int length;
     private long lastTick;
 
-    public Timer(int length) {
-        this.length = length;
+    public Timer() {
+        this.length = 100;
         this.lastTick = System.currentTimeMillis();
     }
 
@@ -20,11 +20,6 @@ public class Timer {
     }
 
     public void mark() {
-        this.lastTick = System.currentTimeMillis();
-    }
-
-    public void setLength(int length) {
-        this.length = length;
         this.lastTick = System.currentTimeMillis();
     }
 }

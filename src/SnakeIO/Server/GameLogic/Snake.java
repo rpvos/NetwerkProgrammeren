@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class Snake {
-    private static final double SIZE = 20;
-    private static final int SPEED = 1;
+    private static final double BLOCKSIZE = 20;
+    private static final double TIME_TO_MOVE = 0.5;
 
     private ArrayList<Point2D> positions;
     private Directions direction;
@@ -31,9 +31,9 @@ public class Snake {
     public void update(double deltaTime) {
         if (!isDead) {
             timer += deltaTime;
-            if (timer >= 1.0 / SPEED) {
+            if (timer >= TIME_TO_MOVE) {
                 move();
-                timer -= 1.0 / SPEED;
+                timer -= TIME_TO_MOVE;
             }
         }
     }
@@ -51,22 +51,24 @@ public class Snake {
             positions.set(i, positions.get(i - 1));
         }
 
+        double speed = 1;
+
         switch (direction) {
 
             case NORTH:
-                positions.set(0, new Point2D.Double(head.getX(), head.getY() - SPEED));
+                positions.set(0, new Point2D.Double(head.getX(), head.getY() - speed));
 
                 break;
             case EAST:
-                positions.set(0, new Point2D.Double(head.getX() + SPEED, head.getY()));
+                positions.set(0, new Point2D.Double(head.getX() + speed, head.getY()));
 
                 break;
             case SOUTH:
-                positions.set(0, new Point2D.Double(head.getX(), head.getY() + SPEED));
+                positions.set(0, new Point2D.Double(head.getX(), head.getY() + speed));
 
                 break;
             case WEST:
-                positions.set(0, new Point2D.Double(head.getX() - SPEED, head.getY()));
+                positions.set(0, new Point2D.Double(head.getX() - speed, head.getY()));
 
                 break;
         }
@@ -103,7 +105,7 @@ public class Snake {
 
     public boolean collide(Point2D point) {
         for (Point2D pos : positions) {
-            if (pos.distance(point) < SIZE / 2)
+            if (pos.distance(point) < BLOCKSIZE / 2)
                 return true;
         }
         return false;
