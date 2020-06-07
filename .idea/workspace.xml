@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42c9d0f0-a27e-4ebf-ad8b-d4548c7ec610" name="Default Changelist" comment="Server side client steps done">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SnakeIO/Client/LogicHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SnakeIO/Client/LogicHub.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SnakeIO/Client/ServerLogic/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SnakeIO/Client/ServerLogic/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/GameField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/GameField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/Snake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/Snake.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SnakeIO/Server/ServerLogic/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SnakeIO/Server/ServerLogic/Client.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -57,8 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SnakeIO/Client/ServerLogic/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5">
-              <caret line="132" column="30" lean-forward="true" selection-start-line="132" selection-start-column="30" selection-end-line="132" selection-end-column="30" />
+            <state relative-caret-position="311">
+              <caret line="85" column="64" lean-forward="true" selection-start-line="85" selection-start-column="64" selection-end-line="85" selection-end-column="64" />
               <folding>
                 <element signature="e#4425#4426#0" expanded="true" />
                 <element signature="e#4461#4462#0" expanded="true" />
@@ -67,12 +63,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/GameField.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="114" column="8" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
+            <state relative-caret-position="393">
+              <caret line="69" column="61" lean-forward="true" selection-start-line="69" selection-start-column="61" selection-end-line="69" selection-end-column="61" />
               <folding>
+                <element signature="e#2453#2454#0" expanded="true" />
+                <element signature="e#2480#2481#0" expanded="true" />
                 <element signature="e#2525#2526#0" expanded="true" />
                 <element signature="e#2554#2555#0" expanded="true" />
                 <element signature="e#2822#2823#0" expanded="true" />
@@ -82,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SnakeIO/Server/ServerLogic/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="99" column="64" selection-start-line="99" selection-start-column="64" selection-end-line="99" selection-end-column="64" />
+            <state relative-caret-position="277">
+              <caret line="105" column="25" lean-forward="true" selection-start-line="105" selection-start-column="25" selection-end-line="105" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -231,10 +229,10 @@
         <option value="$PROJECT_DIR$/src/SnakeIO/Client/GameLogic/Snake.java" />
         <option value="$PROJECT_DIR$/src/SnakeIO/Client/GameLogic/Fruit.java" />
         <option value="$PROJECT_DIR$/src/SnakeIO/Client/LogicHub.java" />
-        <option value="$PROJECT_DIR$/src/SnakeIO/Client/ServerLogic/Server.java" />
-        <option value="$PROJECT_DIR$/src/SnakeIO/Server/ServerLogic/Client.java" />
         <option value="$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/Snake.java" />
         <option value="$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/GameField.java" />
+        <option value="$PROJECT_DIR$/src/SnakeIO/Client/ServerLogic/Server.java" />
+        <option value="$PROJECT_DIR$/src/SnakeIO/Server/ServerLogic/Client.java" />
       </list>
     </option>
   </component>
@@ -433,18 +431,18 @@
       <workItem from="1591281173013" duration="1863000" />
       <workItem from="1591350639877" duration="3542000" />
       <workItem from="1591521358796" duration="9409000" />
-      <workItem from="1591543802751" duration="2144000" />
+      <workItem from="1591543802751" duration="2740000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40987000" />
+    <option name="totallyTimeSpent" value="41583000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29435483" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29435483" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -453,7 +451,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3252841" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3252841" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3963068" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -615,34 +613,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SnakeIO/Client/Visual/GameScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="78" selection-start-line="78" selection-end-line="78" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SnakeIO/Client/ServerLogic/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5">
-          <caret line="132" column="30" lean-forward="true" selection-start-line="132" selection-start-column="30" selection-end-line="132" selection-end-column="30" />
-          <folding>
-            <element signature="e#4425#4426#0" expanded="true" />
-            <element signature="e#4461#4462#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SnakeIO/Server/ServerLogic/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="99" column="64" selection-start-line="99" selection-start-column="64" selection-end-line="99" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/Snake.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
@@ -664,14 +634,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SnakeIO/Server/GameLogic/GameField.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="114" column="8" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
+        <state relative-caret-position="393">
+          <caret line="69" column="61" lean-forward="true" selection-start-line="69" selection-start-column="61" selection-end-line="69" selection-end-column="61" />
           <folding>
+            <element signature="e#2453#2454#0" expanded="true" />
+            <element signature="e#2480#2481#0" expanded="true" />
             <element signature="e#2525#2526#0" expanded="true" />
             <element signature="e#2554#2555#0" expanded="true" />
             <element signature="e#2822#2823#0" expanded="true" />
             <element signature="e#2865#2866#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SnakeIO/Client/Visual/GameScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SnakeIO/Client/ServerLogic/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="85" column="64" lean-forward="true" selection-start-line="85" selection-start-column="64" selection-end-line="85" selection-end-column="64" />
+          <folding>
+            <element signature="e#4425#4426#0" expanded="true" />
+            <element signature="e#4461#4462#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SnakeIO/Server/ServerLogic/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="105" column="25" lean-forward="true" selection-start-line="105" selection-start-column="25" selection-end-line="105" selection-end-column="25" />
         </state>
       </provider>
     </entry>

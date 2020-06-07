@@ -78,7 +78,11 @@ public class Server {
                             snake.hasEaten();
                         }
 
-                        ArrayList<Point2D> fruits = (ArrayList<Point2D>) oIn.readObject();
+                        ArrayList<Point2D> fruits = new ArrayList<>();
+                        int amount = dIn.readInt();
+                        for (int i = 0; i < amount; i++) {
+                            fruits.add((Point2D) oIn.readObject());
+                        }
                         System.out.println(fruits);//todo remove
                         LogicHub.getLogicHub().setFruits(fruits);
                     }

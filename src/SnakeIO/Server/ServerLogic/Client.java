@@ -10,6 +10,7 @@ import SnakeIO.Timer;
 import java.awt.geom.Point2D;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client {
     private boolean running;
@@ -97,8 +98,12 @@ public class Client {
                         DataSnake snakeData = new DataSnake(snake.getPositions(), snake.getDirection(), snake.isAte(), snake.isDead());
                         oOut.writeObject(snakeData);
 
-                        System.out.println(gameField.getFruits());
-                        oOut.writeObject(this.gamefield.getFruits());
+                        ArrayList<Point2D> fruits = gameField.getFruits();
+                        int amount = fruits.size();
+                        dOut.writeInt(amount);
+                        for (Point2D fruit : fruits) {
+                            oOut.writeObject(fruit);
+                        }
                         timer.mark();
                     }
                 }
