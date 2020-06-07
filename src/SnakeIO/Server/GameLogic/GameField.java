@@ -60,19 +60,23 @@ public class GameField {
 
         //spawn new fruit
         if (fruits.size() < maxFruits) {
-            fruits.add(validSpot());
+            Point2D spot = validSpot();
+            if (spot != null) {
+                fruits.add(spot);
+                System.out.println("fruit was added"+spot);
+            }
         }
     }
 
     public Point2D validSpot() {
         Random random = new Random();
         boolean foundPoint = false;
-        Point2D point = new Point2D.Double();
+        Point2D point = null;
         int tries = 0;
         while (!foundPoint && tries < 10) {
             int x = random.nextInt(playingfieldSize);
             int y = random.nextInt(playingfieldSize);
-            point.setLocation(x, y);
+            point = new Point2D.Double(x, y);
             boolean collision = false;
             for (Snake snake : snakes) {
                 if (snake.collide(point))
@@ -83,6 +87,10 @@ public class GameField {
 
             tries++;
         }
+
+        if (!foundPoint)
+            return null;
+
         return point;
     }
 

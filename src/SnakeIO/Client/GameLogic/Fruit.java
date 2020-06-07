@@ -15,7 +15,7 @@ public class Fruit implements GameObject {
 
     @Override
     public void draw(FXGraphics2D graphics2D) {
-        graphics2D.drawRect(20 * (int) pos.getX() -10 , 20 * (int) pos.getY() -10, 20, 20);
+        graphics2D.drawRect(20 * (int) pos.getX() - 10, 20 * (int) pos.getY() + 10, 20, 20);
     }
 
     @Override

@@ -74,14 +74,13 @@ public class Server {
                         //if the server detected that e ate something, the snake is getting another part
                         if (dataSnake.isAte()) {
                             snake.hasEaten();
-                            System.out.println("has eaten");
                         }
 
                         ArrayList<Point2D> fruits = (ArrayList<Point2D>) oIn.readObject();
                         LogicHub.getLogicHub().setFruits(fruits);
                     }
-                } catch (ClassNotFoundException | IOException e) {
-                    e.printStackTrace();
+                } catch (ClassNotFoundException | IOException ignored) {
+
                 }
             });
 
@@ -125,7 +124,7 @@ public class Server {
     }
 
     public void startInput() {
-        if (inputThread != null)//todo ugly
+//        if (inputThread != null)//todo ugly
             inputThread.start();
     }
 

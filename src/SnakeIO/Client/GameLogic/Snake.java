@@ -47,8 +47,9 @@ public class Snake implements GameObject {
             hasEaten = false;
         }
 
-        for (int i = 1; i < positions.size(); i++) {
-            positions.get(i).setLocation(positions.get(i - 1));
+
+        for (int i = positions.size() - 1; i > 0; i--) {
+            positions.set(i, positions.get(i - 1));
         }
 
         switch (direction) {
