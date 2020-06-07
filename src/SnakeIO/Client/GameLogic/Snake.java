@@ -94,7 +94,7 @@ public class Snake implements GameObject {
     public void draw(FXGraphics2D graphics) {
         for (Point2D pos : positions) {
             graphics.setColor(Color.RED);
-            graphics.fillRect((int)(SIZE * pos.getX() - SIZE/2), (int)(SIZE * pos.getY() - SIZE/2), SIZE, SIZE);
+            graphics.fillRect((int) (SIZE * pos.getX() - SIZE / 2), (int) (SIZE * pos.getY() - SIZE / 2), SIZE, SIZE);
         }
     }
 
@@ -108,5 +108,9 @@ public class Snake implements GameObject {
 
     public boolean isDead() {
         return isDead;
+    }
+
+    public void died() {
+        isDead = true;
     }
 }

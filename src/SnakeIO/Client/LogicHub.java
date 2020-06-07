@@ -9,10 +9,12 @@ import org.jfree.fx.FXGraphics2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class LogicHub {
     private Snake snake;
     private ArrayList<Fruit> fruits;
+    private ArrayList<Fruit> newFruits;
     private Server server;
 
     private ArrayList<GameObject> gameObjects;
@@ -41,6 +43,12 @@ public class LogicHub {
     }
 
     public void update(double deltaTime) {
+        try {
+            fruits = newFruits;
+        } catch (ConcurrentModificationException e) {
+            e.printStackTrace();
+        }
+
         if (snake != null)//todo ugly
             snake.update(deltaTime);
     }
@@ -49,6 +57,7 @@ public class LogicHub {
         for (Fruit fruit : fruits) {
             fruit.draw(graphics);
         }
+
         if (snake != null)//todo ugly
             snake.draw(graphics);
     }
@@ -58,9 +67,10 @@ public class LogicHub {
     }
 
     public void setFruits(ArrayList<Point2D> positions) {
-        fruits.clear();
+        this.newFruits = new ArrayList<>();
+
         for (Point2D pos : positions) {
-            fruits.add(new Fruit(pos));
+            newFruits.add(new Fruit(pos));
         }
     }
 

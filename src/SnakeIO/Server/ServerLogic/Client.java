@@ -5,11 +5,11 @@ import SnakeIO.DataSnake;
 import SnakeIO.Directions;
 import SnakeIO.Server.GameLogic.GameField;
 import SnakeIO.Server.GameLogic.Snake;
+import SnakeIO.Timer;
 
 import java.awt.geom.Point2D;
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class Client {
     private boolean running;
@@ -50,11 +50,8 @@ public class Client {
                 this.username = this.dIn.readUTF();
                 System.out.printf("User %s connected\n", this.username);
 
-                ArrayList<Point2D> positions = new ArrayList<>();
-
                 while (running) {
                     String input = dIn.readUTF();
-
                     //check if the message is "closing connection"
                     if (input.equals(Data.CLOSINGCONNECTION)) {
                         //if it is this close all the streams
@@ -71,6 +68,7 @@ public class Client {
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }
+
                     }
 
 
@@ -92,45 +90,17 @@ public class Client {
                 dOut.writeInt((int) pos.getX());
                 dOut.writeInt((int) pos.getY());
 
+                Timer timer = new Timer(1000);
+
                 while (running) {
-                    DataSnake snakeData = new DataSnake(snake.getPositions(), snake.getDirection(), snake.isAte(), snake.isDead());
-                    oOut.writeObject(snakeData);
+                    if (timer.timeout()) {
+                        DataSnake snakeData = new DataSnake(snake.getPositions(), snake.getDirection(), snake.isAte(), snake.isDead());
+                        oOut.writeObject(snakeData);
 
-                    oOut.writeObject(this.gamefield.getFruits());
+                        oOut.writeObject(this.gamefield.getFruits());
+                        timer.mark();
+                    }
                 }
-
-//                while (running) {
-//                    //step 1 send if there was a collision between this snake head and another snake body
-//                    dOut.writeBoolean(this.snake.isDead());
-//                    // step 2 send if snake has eaten a fruit
-//                    dOut.writeBoolean(this.snake.isAte());
-//                    // step 3 send fruit positions and snake positions
-//
-//                    dOut.writeInt(this.server.getClients().size());
-//
-//                    for (Client client : this.server.getClients()) {
-//                        Snake snake = client.getSnake();
-//
-//                        //send direction
-//                        dOut.writeUTF(snake.getDirection().toString());
-//
-//                        ArrayList<Point2D> positions = snake.getPositions();
-//                        //send amount of segments
-//                        dOut.writeInt(positions.size());
-//                        //send individual segment
-//                        for (Point2D posi : positions) {
-//                            dOut.writeInt((int) posi.getX());
-//                            dOut.writeInt((int) posi.getY());
-//                        }
-//                    }
-//
-//                    dOut.writeInt(this.gamefield.getFruits().size());
-//
-//                    for (Point2D fruit : this.gamefield.getFruits()) {
-//                        dOut.writeInt((int) fruit.getY());
-//                        dOut.writeInt((int) fruit.getX());
-//                    }
-//                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -142,22 +112,20 @@ public class Client {
 
     }
 
-    private Snake getSnake() {
-        return this.snake;
-    }
-
     private void disconnect() {
         running = false;
 
         try {
+            //give the streams time to finnish
+            Thread.sleep(500);
             //close all the streams
             dOut.close();
             dIn.close();
             oOut.close();
             oIn.close();
 
-            System.out.println(username+" disconnected from ip "+socket.getInetAddress());
-        } catch (IOException e) {
+            System.out.println(username + " disconnected from ip " + socket.getInetAddress());
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

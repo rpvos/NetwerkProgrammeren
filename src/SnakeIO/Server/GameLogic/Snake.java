@@ -24,7 +24,7 @@ public class Snake {
         this.hasEaten = false;
         this.isDead = false;
         this.timer = 0;
-        this.ate= false;
+        this.ate = false;
     }
 
 
@@ -72,6 +72,8 @@ public class Snake {
     }
 
     public void setPositions(ArrayList<Point2D> positions) {
+        while (positions.size() > this.positions.size())
+            this.positions.add(new Point2D.Double());
 
         for (int i = 0; i < this.positions.size(); i++) {
             if (this.positions.get(i).distance(positions.get(i)) < 2 * SIZE)
@@ -122,7 +124,7 @@ public class Snake {
 
     public boolean isAte() {
         boolean temp = this.ate;
-        if (this.ate == true){
+        if (this.ate) {
             this.ate = false;
         }
         return temp;

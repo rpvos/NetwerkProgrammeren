@@ -4,6 +4,7 @@ import SnakeIO.Client.GameLogic.Snake;
 import SnakeIO.Client.LogicHub;
 import SnakeIO.Data;
 import SnakeIO.DataSnake;
+import SnakeIO.Timer;
 
 import java.awt.geom.Point2D;
 import java.io.*;
@@ -24,6 +25,7 @@ public class Server {
     private ObjectOutputStream oOut;
 
     private boolean running;
+    private boolean userNameIsSet;
 
     public Server(String host, int port) {
         this.host = host;
@@ -39,6 +41,7 @@ public class Server {
         this.oOut = null;
 
         this.running = true;
+        this.userNameIsSet = false;
     }
 
     public void connect() {
@@ -66,7 +69,7 @@ public class Server {
 
                         //if the server detected a collision the snake died
                         if (dataSnake.isDead())
-                            snake.isDead();
+                            snake.died();
 
                         //if the server detected that e ate something, the snake is getting another part
                         if (dataSnake.isAte())
@@ -74,12 +77,9 @@ public class Server {
 
 
                         ArrayList<Point2D> fruits = (ArrayList<Point2D>) oIn.readObject();
-                        System.out.println(fruits.size());
                         LogicHub.getLogicHub().setFruits(fruits);
                     }
-                } catch (IOException e) {
-                    System.out.println("No server detected");
-                } catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
             });
@@ -89,34 +89,33 @@ public class Server {
             this.oOut = new ObjectOutputStream(socket.getOutputStream());
 
             outputThread = new Thread(() -> {
-//                try {
-//                    Snake snake = LogicHub.getLogicHub().getSnake();
-//
-//                    while (running) {
-//                        //send direction
-//                        dOut.writeUTF(snake.getDirection().toString());
-//
-//                        ArrayList<Point2D> positions = snake.getPositions();
-//                        //send amount of segments
-//                        dOut.writeInt(positions.size());
-//                        //send individual segment
-//                        for (Point2D pos : positions) {
-//                            dOut.writeInt((int) pos.getX());
-//                            dOut.writeInt((int) pos.getY());
-//                        }
-//                    }
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    Timer timer = new Timer(1000);
+
+                    while (running) {
+                        if (userNameIsSet) {
+                            if (timer.timeout()) {
+                                dOut.writeUTF(Data.DATASNAKE);
+
+                                Snake snake = LogicHub.getLogicHub().getSnake();
+                                DataSnake dataSnake = new DataSnake(snake.getPositions(), snake.getDirection(), false, snake.isDead());
+                                oOut.writeObject(dataSnake);
+                                timer.mark();
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             });
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No server detected");
         }
     }
 
     public void setUsername(String username) {
+        userNameIsSet = true;
         try {
             dOut.writeUTF(username);
         } catch (IOException e) {
@@ -137,6 +136,9 @@ public class Server {
 
             dIn.close();
             dOut.close();
+
+            oIn.close();
+            oOut.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

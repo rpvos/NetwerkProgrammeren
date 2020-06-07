@@ -2,6 +2,7 @@ package SnakeIO.Server.GameLogic;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class GameField {
@@ -34,7 +35,9 @@ public class GameField {
         for (Snake snake : snakes) {
             int temp = 0;
             Point2D head = snake.getHead();
-            for (Snake otherSnake : snakes) {
+
+            for (Iterator<Snake> iterator = snakes.iterator(); iterator.hasNext(); ) {
+                Snake otherSnake = iterator.next();
                 if (otherSnake.collide(head))
                     temp++;
             }
@@ -47,12 +50,11 @@ public class GameField {
         for (Snake snake : snakes) {
             Point2D head = snake.getHead();
             for (Point2D fruit : fruits) {
-                if (head.distance(fruit) < SIZE / 2)
+                if (head.distance(fruit) < 0.5) {
                     snake.hasEaten();
+                }
             }
         }
-
-        System.out.println(fruits.size() + ":" + maxFruits);
 
         //spawn new fruit
         if (fruits.size() < maxFruits) {
