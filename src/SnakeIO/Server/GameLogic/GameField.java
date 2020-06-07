@@ -67,7 +67,6 @@ public class GameField {
             Point2D spot = validSpot();
             if (spot != null) {
                 fruits.add(spot);
-                System.out.println("fruit was added" + spot);
             }
         }
     }

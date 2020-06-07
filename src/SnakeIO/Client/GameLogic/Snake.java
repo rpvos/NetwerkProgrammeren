@@ -1,6 +1,7 @@
 package SnakeIO.Client.GameLogic;
 
 import SnakeIO.Client.Visual.GameObject;
+import SnakeIO.DataSnake;
 import SnakeIO.Directions;
 import org.jfree.fx.FXGraphics2D;
 
@@ -27,6 +28,13 @@ public class Snake implements GameObject {
         this.timer = 0;
     }
 
+    public Snake(DataSnake dataSnake) {
+        this.positions = dataSnake.getSnakePositions();
+        this.direction = dataSnake.getDirection();
+        this.hasEaten = false;
+        this.isDead = false;
+        this.timer = 0;
+    }
 
     public void update(double deltaTime) {
         if (!isDead) {

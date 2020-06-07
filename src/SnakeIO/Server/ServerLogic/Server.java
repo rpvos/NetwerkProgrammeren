@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Server {
     private boolean running;
     private final int port;
-    private ArrayList<Client> clients;
+    private static ArrayList<Client> clients = new ArrayList<>();
     private GameField gameField;
     private Thread updateThread;
 
@@ -23,7 +23,6 @@ public class Server {
     private Server(int port) {
         this.running = true;
         this.port = port;
-        this.clients = new ArrayList<>();
         this.gameField = new GameField();
         //the getto update timer
         this.updateThread = new Thread(() -> {
@@ -67,5 +66,7 @@ public class Server {
         }
     }
 
-
+    public static ArrayList<Client> getClients() {
+        return clients;
+    }
 }

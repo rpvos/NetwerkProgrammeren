@@ -95,15 +95,28 @@ public class Client {
 
                 while (running) {
                     if (timer.timeout()) {
+                        dOut.writeUTF(Data.DATASNAKE);
                         DataSnake snakeData = new DataSnake(snake.getPositions(), snake.getDirection(), snake.isAte(), snake.isDead());
                         oOut.writeObject(snakeData);
 
+                        dOut.writeUTF(Data.DATAFRUIT);
                         ArrayList<Point2D> fruits = gameField.getFruits();
                         int amount = fruits.size();
                         dOut.writeInt(amount);
                         for (Point2D fruit : fruits) {
                             oOut.writeObject(fruit);
                         }
+
+                        dOut.writeUTF(Data.DATAOTHERSNAKES);
+                        ArrayList<Client> clients = Server.getClients();
+                        clients.remove(this);
+                        dOut.writeInt(clients.size());
+                        for (Client client : clients) {
+                            Snake snake = client.snake;
+                            oOut.writeObject(new DataSnake(snake.getPositions(), snake.getDirection(), false, snake.isDead()));
+                        }
+
+
                         timer.mark();
                     }
                 }

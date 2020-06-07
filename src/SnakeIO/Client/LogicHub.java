@@ -5,6 +5,7 @@ import SnakeIO.Client.GameLogic.Snake;
 import SnakeIO.Client.ServerLogic.Server;
 import SnakeIO.Client.Visual.GameObject;
 import SnakeIO.Data;
+import SnakeIO.DataSnake;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.geom.Point2D;
@@ -15,6 +16,7 @@ public class LogicHub {
     private Snake snake;
     private ArrayList<Fruit> fruits;
     private ArrayList<Fruit> newFruits;
+    private ArrayList<Snake> otherSnakes;
     private Server server;
 
     private ArrayList<GameObject> gameObjects;
@@ -49,7 +51,7 @@ public class LogicHub {
             e.printStackTrace();
         }
 
-        if (snake != null)//todo ugly
+        if (snake != null)
             snake.update(deltaTime);
     }
 
@@ -58,7 +60,7 @@ public class LogicHub {
             fruit.draw(graphics);
         }
 
-        if (snake != null)//todo ugly
+        if (snake != null)
             snake.draw(graphics);
     }
 
@@ -68,7 +70,6 @@ public class LogicHub {
 
     public void setFruits(ArrayList<Point2D> positions) {
         this.newFruits = new ArrayList<>();
-        System.out.println(newFruits);//todo remove
         for (Point2D pos : positions) {
             newFruits.add(new Fruit(pos));
         }
@@ -86,5 +87,12 @@ public class LogicHub {
         this.startingPosition = new Point2D.Double(x, y);
         this.snake = new Snake(startingPosition);
         this.server.startOutput();
+    }
+
+    public void setOtherSnakes(ArrayList<DataSnake> dataSnakes) {
+        this.otherSnakes = new ArrayList<>();
+        for (DataSnake dataSnake : dataSnakes) {
+            otherSnakes.add(new Snake(dataSnake));
+        }
     }
 }

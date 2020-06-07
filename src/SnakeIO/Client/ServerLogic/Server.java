@@ -64,29 +64,54 @@ public class Server {
                     LogicHub.getLogicHub().setStart(x, y);
 
                     while (running) {
-                        //data gotten from the server
-                        DataSnake dataSnake = (DataSnake) oIn.readObject();
-                        //the snake from the client
-                        Snake snake = LogicHub.getLogicHub().getSnake();
+                        String input = dIn.readUTF();
+                        try {
+                            switch (input) {
+                                case Data.DATASNAKE: {
+                                    //data gotten from the server
+                                    DataSnake dataSnake = (DataSnake) oIn.readObject();
+                                    //the snake from the client
+                                    Snake snake = LogicHub.getLogicHub().getSnake();
 
-                        //if the server detected a collision the snake died
-                        if (dataSnake.isDead())
-                            snake.died();
+                                    //if the server detected a collision the snake died
+                                    if (dataSnake.isDead())
+                                        snake.died();
 
-                        //if the server detected that the snake ate something, the snake is getting another part
-                        if (dataSnake.isAte()) {
-                            snake.hasEaten();
+                                    //if the server detected that the snake ate something, the snake is getting another part
+                                    if (dataSnake.isAte()) {
+                                        snake.hasEaten();
+                                    }
+                                }
+                                break;
+
+                                case Data.DATAFRUIT: {
+                                    ArrayList<Point2D> fruits = new ArrayList<>();
+                                    int amount = dIn.readInt();
+                                    for (int i = 0; i < amount; i++) {
+                                        fruits.add((Point2D) oIn.readObject());
+                                    }
+                                    LogicHub.getLogicHub().setFruits(fruits);
+                                }
+                                break;
+
+                                case Data.DATAOTHERSNAKES: {
+                                    int amount = dIn.readInt();
+                                    ArrayList<DataSnake> dataSnakes = new ArrayList<>();
+                                    for (int i = 0; i < amount; i++) {
+                                        dataSnakes.add((DataSnake) oIn.readObject());
+                                    }
+
+                                    LogicHub.getLogicHub().setOtherSnakes(dataSnakes);
+                                }
+                                break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
-                        ArrayList<Point2D> fruits = new ArrayList<>();
-                        int amount = dIn.readInt();
-                        for (int i = 0; i < amount; i++) {
-                            fruits.add((Point2D) oIn.readObject());
-                        }
-                        System.out.println(fruits);//todo remove
-                        LogicHub.getLogicHub().setFruits(fruits);
+
                     }
-                } catch (ClassNotFoundException | IOException ignored) {
+                } catch (IOException ignored) {
                 }
             });
 
@@ -130,7 +155,6 @@ public class Server {
     }
 
     public void startInput() {
-//        if (inputThread != null)//todo ugly
         inputThread.start();
     }
 
