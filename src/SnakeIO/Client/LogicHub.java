@@ -7,6 +7,7 @@ import SnakeIO.Client.Visual.GameObject;
 import SnakeIO.Data;
 import org.jfree.fx.FXGraphics2D;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 

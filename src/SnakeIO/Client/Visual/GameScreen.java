@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class GameScreen extends Application {
@@ -24,11 +25,14 @@ public class GameScreen extends Application {
     private ArrayList<String> keyPressed;
     private LogicHub logicHub;
     private AnimationTimer animationTimer;
+    private Camera camera;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.logicHub = LogicHub.getLogicHub();
         this.keyPressed = new ArrayList<>();
+
+        this.camera = new SnakeIO.Client.Visual.Camera(0,0);
 
         logicHub.start();
 
@@ -106,6 +110,9 @@ public class GameScreen extends Application {
     private void draw(FXGraphics2D graphics) {
         graphics.setColor(Color.GRAY);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+        AffineTransform camera = new AffineTransform();
+        camera.translate(logicHub.getSnake().getHead().getX(), logicHub.getSnake().getHead().getY());
+        graphics.transform(camera);
         logicHub.draw(graphics);
     }
 

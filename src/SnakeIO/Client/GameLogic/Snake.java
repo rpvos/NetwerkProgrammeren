@@ -109,4 +109,8 @@ public class Snake implements GameObject {
     public boolean isDead() {
         return isDead;
     }
+
+    public Point2D getHead() {
+        return positions.get(0);
+    }
 }
