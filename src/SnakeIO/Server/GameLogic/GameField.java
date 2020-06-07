@@ -4,6 +4,7 @@ import SnakeIO.Data;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -28,34 +29,41 @@ public class GameField {
         removeSnakes();
 
         //update the movement
-        for (Snake snake : snakes) {
+        for (Iterator<Snake> iterator = snakes.iterator(); iterator.hasNext(); ) {
+            Snake snake = iterator.next();
             snake.update(deltaTime);
         }
 
         //check if he collides with a snake
-        for (Snake snake : snakes) {
-            int temp = 0;
-            Point2D head = snake.getHead();
+        try {
+            for (Snake snake : snakes) {
+                int temp = 0;
+                Point2D head = snake.getHead();
 
-            for (Snake otherSnake : snakes) {
-                if (otherSnake.collide(head))
-                    temp++;
+                for (Snake otherSnake : snakes) {
+                    if (otherSnake.collide(head))
+                        temp++;
+                }
+
+                if (temp > 2)
+                    snake.died();
             }
-
-            if (temp > 2)
-                snake.died();
+        } catch (ConcurrentModificationException ignored) {
         }
 
         //check if he eats a fruit
-        for (Snake snake : snakes) {
-            Point2D head = snake.getHead();
-            for (Iterator<Point2D> iterator = fruits.iterator(); iterator.hasNext(); ) {
-                Point2D fruit = iterator.next();
-                if (head.distance(fruit) < 0.5) {
-                    snake.hasEaten();
-                    iterator.remove();
+        try {
+            for (Snake snake : snakes) {
+                Point2D head = snake.getHead();
+                for (Iterator<Point2D> iterator = fruits.iterator(); iterator.hasNext(); ) {
+                    Point2D fruit = iterator.next();
+                    if (head.distance(fruit) < 0.5) {
+                        snake.hasEaten();
+                        iterator.remove();
+                    }
                 }
             }
+        } catch (ConcurrentModificationException ignored) {
         }
 
         //spawn new fruit
@@ -106,7 +114,8 @@ public class GameField {
 
     private void removeSnakes() {
         try {
-            for (int i : snakesToRemove) {
+            for (Iterator<Integer> iterator = snakesToRemove.iterator(); iterator.hasNext(); ) {
+                int i = iterator.next();
                 snakes.removeIf(snake -> snake.getId() == i);
             }
         } catch (NullPointerException e) {

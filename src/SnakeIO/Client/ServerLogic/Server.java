@@ -98,7 +98,18 @@ public class Server {
                                     int amount = dIn.readInt();
                                     ArrayList<DataSnake> dataSnakes = new ArrayList<>();
                                     for (int i = 0; i < amount; i++) {
-                                        dataSnakes.add((DataSnake) oIn.readObject());
+                                        DataSnake dataSnake = (DataSnake) oIn.readObject();
+                                        System.out.println(dataSnake.getSnakePositions());
+                                        dataSnakes.add(dataSnake);
+
+                                        ArrayList<Point2D> positions = new ArrayList<>();
+                                        int size = dIn.readInt();
+                                        for (int j = 0; j < size; j++) {
+                                            Point2D pos = (Point2D) oIn.readObject();
+                                            positions.add(pos);
+                                        }
+
+                                        dataSnake.setSnakePositions(positions);
                                     }
 
                                     LogicHub.getLogicHub().setOtherSnakes(dataSnakes);

@@ -92,6 +92,7 @@ public class LogicHub {
 
     public void setOtherSnakes(ArrayList<DataSnake> dataSnakes) {
         this.otherSnakes = new ArrayList<>();
+
         for (DataSnake dataSnake : dataSnakes) {
             otherSnakes.add(new Snake(dataSnake));
         }

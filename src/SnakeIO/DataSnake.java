@@ -36,4 +36,8 @@ public class DataSnake implements Serializable {
     public boolean isDead() {
         return isDead;
     }
+
+    public void setSnakePositions(ArrayList<Point2D> snakePositions) {
+        this.snakePositions = snakePositions;
+    }
 }

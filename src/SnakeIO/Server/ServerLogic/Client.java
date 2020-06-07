@@ -6,6 +6,7 @@ import SnakeIO.Directions;
 import SnakeIO.Server.GameLogic.GameField;
 import SnakeIO.Server.GameLogic.Snake;
 import SnakeIO.Timer;
+import com.sun.jndi.ldap.pool.PoolCleaner;
 
 import java.awt.geom.Point2D;
 import java.io.*;
@@ -109,13 +110,21 @@ public class Client {
                         }
 
                         dOut.writeUTF(Data.DATAOTHERSNAKES);
-                        ArrayList<Client> clients = Server.getClients();
+                        ArrayList<Client> clients = new ArrayList<>(Server.getClients());
                         clients.remove(this);
                         dOut.writeInt(clients.size());
                         for (Client client : clients) {
                             Snake snake = client.snake;
-                            oOut.writeObject(new DataSnake(snake.getPositions(), snake.getDirection(), false, snake.isDead()));
+                            DataSnake dataSnake = new DataSnake(snake.getPositions(), snake.getDirection(), false, snake.isDead());
+                            oOut.writeObject(dataSnake);
+
+                            ArrayList<Point2D> positions = snake.getPositions();
+                            dOut.writeInt(positions.size());
+                            for (int i = 0; i < positions.size(); i++) {
+                                oOut.writeObject(positions.get(i));
+                            }
                         }
+
 
 
                         timer.mark();
