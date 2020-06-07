@@ -80,10 +80,9 @@ public class GameScreen extends Application {
         Scene menuScene = new Scene(gridPane);
         primaryStage.setScene(menuScene);
         primaryStage.show();
+        primaryStage.setTitle("SnakeIO - v1");
 
-        primaryStage.setOnCloseRequest(event -> {
-            logicHub.disconnect();
-        });
+        primaryStage.setOnCloseRequest(event -> logicHub.disconnect());
     }
 
     private void setDirection(KeyEvent event) {
