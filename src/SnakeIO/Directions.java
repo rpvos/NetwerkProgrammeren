@@ -1,4 +1,4 @@
-package SnakeIO.Server.GameLogic;
+package SnakeIO;
 
 public enum Directions {
     NORTH,

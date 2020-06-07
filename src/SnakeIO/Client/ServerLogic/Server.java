@@ -2,15 +2,14 @@ package SnakeIO.Client.ServerLogic;
 
 import SnakeIO.Client.GameLogic.Snake;
 import SnakeIO.Client.LogicHub;
-import sun.rmi.runtime.Log;
+import SnakeIO.Data;
+import SnakeIO.DataSnake;
+import SnakeIO.Timer;
 
 import java.awt.geom.Point2D;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Server {
     private final String host;
@@ -19,10 +18,14 @@ public class Server {
     private Thread inputThread;
     private Thread outputThread;
 
-    private DataInputStream din;
-    private DataOutputStream dout;
-    private boolean running;
+    private DataInputStream dIn;
+    private DataOutputStream dOut;
 
+    private ObjectInputStream oIn;
+    private ObjectOutputStream oOut;
+
+    private boolean running;
+    private boolean userNameIsSet;
 
     public Server(String host, int port) {
         this.host = host;
@@ -31,91 +34,112 @@ public class Server {
         this.inputThread = null;
         this.outputThread = null;
 
-        this.din = null;
-        this.dout = null;
+        this.dIn = null;
+        this.dOut = null;
+
+        this.oIn = null;
+        this.oOut = null;
 
         this.running = true;
+        this.userNameIsSet = false;
     }
 
     public void connect() {
         try {
             Socket socket = new Socket(host, port);
 
-            this.din = new DataInputStream(socket.getInputStream());
+            this.dIn = new DataInputStream(socket.getInputStream());
+            this.oIn = new ObjectInputStream(socket.getInputStream());
 
             inputThread = new Thread(() -> {
                 try {
                     //display if connected succesfully
-                    System.out.println(din.readUTF());
+                    System.out.println(dIn.readUTF());
 
                     //get the starting location of the snake
-                    int x = din.readInt();
-                    int y = din.readInt();
-                    LogicHub.getLogicHub().setStart(x,y);
+                    int x = dIn.readInt();
+                    int y = dIn.readInt();
+                    LogicHub.getLogicHub().setStart(x, y);
 
                     while (running) {
-                        System.out.println(din.readUTF());
-                        //todo step 1 receive if there was a collision between this snake head and another snake body
-                        //todo step 2 receive if snake has eaten a fruit
-                        //todo step 3 receive fruit positions and snake positions
-                        //todo step 4 set the fruit positions of the logic hub
+                        //data gotten from the server
+                        DataSnake dataSnake = (DataSnake) oIn.readObject();
+                        //the snake from the client
+                        Snake snake = LogicHub.getLogicHub().getSnake();
+
+                        //if the server detected a collision the snake died
+                        if (dataSnake.isDead())
+                            snake.died();
+
+                        //if the server detected that e ate something, the snake is getting another part
+                        if (dataSnake.isAte()) {
+                            snake.hasEaten();
+                            System.out.println("has eaten");
+                        }
+
+                        ArrayList<Point2D> fruits = (ArrayList<Point2D>) oIn.readObject();
+                        LogicHub.getLogicHub().setFruits(fruits);
                     }
-                } catch (IOException e) {
+                } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
             });
 
 
-            this.dout = new DataOutputStream(socket.getOutputStream());
+            this.dOut = new DataOutputStream(socket.getOutputStream());
+            this.oOut = new ObjectOutputStream(socket.getOutputStream());
 
             outputThread = new Thread(() -> {
                 try {
+                    Timer timer = new Timer(1000);
 
                     while (running) {
-                        Snake snake = LogicHub.getLogicHub().getSnake();
-                        //send direction
-                        dout.writeUTF(snake.getDirection().toString());
+                        if (userNameIsSet) {
+                            if (timer.timeout()) {
+                                dOut.writeUTF(Data.DATASNAKE);
 
-                        ArrayList<Point2D> positions = snake.getPositions();
-                        //send amount of segments
-                        dout.writeInt(positions.size());
-                        //send individual segment
-                        for (Point2D pos : positions) {
-                            dout.writeInt((int) pos.getX());
-                            dout.writeInt((int) pos.getY());
+                                Snake snake = LogicHub.getLogicHub().getSnake();
+                                DataSnake dataSnake = new DataSnake(snake.getPositions(), snake.getDirection(), false, snake.isDead());
+                                oOut.writeObject(dataSnake);
+                                timer.mark();
+                            }
                         }
                     }
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No server detected");
         }
     }
 
     public void setUsername(String username) {
+        userNameIsSet = true;
         try {
-            dout.writeUTF(username);
+            dOut.writeUTF(username);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void startInput() {
-        inputThread.start();
+        if (inputThread != null)//todo ugly
+            inputThread.start();
     }
 
     public void disconnect() {
         running = false;
 
         try {
-            dout.writeUTF("closing connection");
+            dOut.writeUTF(Data.CLOSINGCONNECTION);
 
-            din.close();
-            dout.close();
+            dIn.close();
+            dOut.close();
+
+            oIn.close();
+            oOut.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

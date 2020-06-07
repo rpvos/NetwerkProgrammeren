@@ -1,5 +1,7 @@
 package SnakeIO.Server.GameLogic;
 
+import SnakeIO.Directions;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ public class Snake {
         this.hasEaten = false;
         this.isDead = false;
         this.timer = 0;
-        this.ate= false;
+        this.ate = false;
     }
 
 
@@ -44,37 +46,34 @@ public class Snake {
             positions.add(new Point2D.Double());
             hasEaten = false;
         }
-        switch (direction) {
 
-            case NORTH:
-                head.setLocation(head.getX(), head.getY() - SPEED);
-
-                break;
-            case EAST:
-                head.setLocation(head.getX() + SPEED, head.getY());
-
-                break;
-            case SOUTH:
-                head.setLocation(head.getX(), head.getY() + SPEED);
-
-                break;
-            case WEST:
-                head.setLocation(head.getX() - SPEED, head.getY());
-
-                break;
-        }
         for (int i = 1; i < positions.size(); i++) {
             positions.get(i).setLocation(positions.get(i - 1));
         }
 
+        switch (direction) {
+
+            case NORTH:
+                positions.set(0, new Point2D.Double(head.getX(), head.getY() - SPEED));
+
+                break;
+            case EAST:
+                positions.set(0, new Point2D.Double(head.getX() + SPEED, head.getY()));
+
+                break;
+            case SOUTH:
+                positions.set(0, new Point2D.Double(head.getX(), head.getY() + SPEED));
+
+                break;
+            case WEST:
+                positions.set(0, new Point2D.Double(head.getX() - SPEED, head.getY()));
+
+                break;
+        }
     }
 
     public void setPositions(ArrayList<Point2D> positions) {
-
-        for (int i = 0; i < this.positions.size(); i++) {
-            if (this.positions.get(i).distance(positions.get(i)) < 2 * SIZE)
-                this.positions.get(i).setLocation(positions.get(i));
-        }
+        this.positions = positions;
 
     }
 
@@ -91,9 +90,10 @@ public class Snake {
     }
 
     public void hasEaten() {
-        this.hasEaten = true;
-        this.ate = true;
-        //todo notify the client that the snake has eaten
+        if (!hasEaten) {
+            this.hasEaten = true;
+            this.ate = true;
+        }
     }
 
     public Point2D getHead() {
@@ -111,7 +111,6 @@ public class Snake {
 
     public void died() {
         isDead = true;
-        //todo notify the client that the snake has died
     }
 
     public boolean isDead() {
@@ -120,7 +119,7 @@ public class Snake {
 
     public boolean isAte() {
         boolean temp = this.ate;
-        if (this.ate == true){
+        if (this.ate) {
             this.ate = false;
         }
         return temp;

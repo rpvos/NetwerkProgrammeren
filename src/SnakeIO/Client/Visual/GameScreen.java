@@ -1,6 +1,6 @@
 package SnakeIO.Client.Visual;
 
-import SnakeIO.Client.GameLogic.Directions;
+import SnakeIO.Directions;
 import SnakeIO.Client.LogicHub;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class GameScreen extends Application {
