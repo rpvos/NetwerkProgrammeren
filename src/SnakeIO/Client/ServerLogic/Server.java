@@ -5,8 +5,10 @@ import SnakeIO.Client.LogicHub;
 import SnakeIO.Data;
 import SnakeIO.DataSnake;
 
+import java.awt.geom.Point2D;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
     private final String host;
@@ -54,23 +56,26 @@ public class Server {
                     //get the starting location of the snake
                     int x = dIn.readInt();
                     int y = dIn.readInt();
-                    LogicHub.getLogicHub().setStart(x,y);
+                    LogicHub.getLogicHub().setStart(x, y);
 
-                    //data gotten from the server
-                    DataSnake dataSnake = (DataSnake) oIn.readObject();
-                    //the snake from the client
-                    Snake snake = LogicHub.getLogicHub().getSnake();
+                    while (running) {
+                        //data gotten from the server
+                        DataSnake dataSnake = (DataSnake) oIn.readObject();
+                        //the snake from the client
+                        Snake snake = LogicHub.getLogicHub().getSnake();
 
-                    //if the server detected a collision the snake died
-                    if (dataSnake.isDead())
-                        snake.isDead();
+                        //if the server detected a collision the snake died
+                        if (dataSnake.isDead())
+                            snake.isDead();
 
-                    //if the server detected that e ate something, the snake is getting another part
-                    if (dataSnake.isAte())
-                        snake.hasEaten();
+                        //if the server detected that e ate something, the snake is getting another part
+                        if (dataSnake.isAte())
+                            snake.hasEaten();
 
-                    //todo add fruit getting
 
+                        ArrayList<Point2D> fruits = (ArrayList<Point2D>) oIn.readObject();
+                        LogicHub.getLogicHub().setFruits(fruits);
+                    }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }

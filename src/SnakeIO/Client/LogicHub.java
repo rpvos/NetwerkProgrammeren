@@ -57,8 +57,11 @@ public class LogicHub {
         return snake;
     }
 
-    public void setFruits(ArrayList<Fruit> fruits) {
-        this.fruits = fruits;
+    public void setFruits(ArrayList<Point2D> positions) {
+        fruits.clear();
+        for (Point2D pos : positions) {
+            fruits.add(new Fruit(pos));
+        }
     }
 
     public void setUsername(String username) {

@@ -48,7 +48,7 @@ public class Client {
                 this.dIn = new DataInputStream(socket.getInputStream());
                 this.oIn = new ObjectInputStream(socket.getInputStream());
                 this.username = this.dIn.readUTF();
-                System.out.printf("User %s connected\n",this.username);
+                System.out.printf("User %s connected\n", this.username);
 
                 ArrayList<Point2D> positions = new ArrayList<>();
 
@@ -91,6 +91,13 @@ public class Client {
                 Point2D pos = gameField.validSpot();
                 dOut.writeInt((int) pos.getX());
                 dOut.writeInt((int) pos.getY());
+
+                while (running) {
+                    DataSnake snakeData = new DataSnake(snake.getPositions(), snake.getDirection(), snake.isAte(), snake.isDead());
+                    oOut.writeObject(snakeData);
+
+                    oOut.writeObject(this.gamefield.getFruits());
+                }
 
 //                while (running) {
 //                    //step 1 send if there was a collision between this snake head and another snake body
