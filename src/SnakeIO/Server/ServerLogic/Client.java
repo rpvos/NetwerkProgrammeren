@@ -155,6 +155,8 @@ public class Client {
             dIn.close();
             oOut.close();
             oIn.close();
+
+            System.out.println(username+" disconnected from ip "+socket.getInetAddress());
         } catch (IOException e) {
             e.printStackTrace();
         }

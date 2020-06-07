@@ -52,6 +52,8 @@ public class GameField {
             }
         }
 
+        System.out.println(fruits.size() + ":" + maxFruits);
+
         //spawn new fruit
         if (fruits.size() < maxFruits) {
             fruits.add(validSpot());

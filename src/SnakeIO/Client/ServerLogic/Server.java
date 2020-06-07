@@ -74,9 +74,12 @@ public class Server {
 
 
                         ArrayList<Point2D> fruits = (ArrayList<Point2D>) oIn.readObject();
+                        System.out.println(fruits.size());
                         LogicHub.getLogicHub().setFruits(fruits);
                     }
-                } catch (IOException | ClassNotFoundException e) {
+                } catch (IOException e) {
+                    System.out.println("No server detected");
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             });
@@ -122,7 +125,8 @@ public class Server {
     }
 
     public void startInput() {
-        inputThread.start();
+        if (inputThread != null)//todo ugly
+            inputThread.start();
     }
 
     public void disconnect() {
