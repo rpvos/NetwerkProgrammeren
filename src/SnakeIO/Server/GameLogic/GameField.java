@@ -49,9 +49,11 @@ public class GameField {
         //check if he eats a fruit
         for (Snake snake : snakes) {
             Point2D head = snake.getHead();
-            for (Point2D fruit : fruits) {
+            for (Iterator<Point2D> iterator = fruits.iterator(); iterator.hasNext(); ) {
+                Point2D fruit = iterator.next();
                 if (head.distance(fruit) < 0.5) {
                     snake.hasEaten();
+                    iterator.remove();
                 }
             }
         }

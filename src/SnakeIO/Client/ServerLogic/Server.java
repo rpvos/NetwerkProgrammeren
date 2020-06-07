@@ -72,9 +72,10 @@ public class Server {
                             snake.died();
 
                         //if the server detected that e ate something, the snake is getting another part
-                        if (dataSnake.isAte())
+                        if (dataSnake.isAte()) {
                             snake.hasEaten();
-
+                            System.out.println("has eaten");
+                        }
 
                         ArrayList<Point2D> fruits = (ArrayList<Point2D>) oIn.readObject();
                         LogicHub.getLogicHub().setFruits(fruits);
