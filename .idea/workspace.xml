@@ -219,37 +219,29 @@
           <expand>
             <path>
               <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="SnakeIO" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="SnakeIO" type="462c0819:PsiDirectoryNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="SnakeIO" type="462c0819:PsiDirectoryNode" />
               <item name="Client" type="462c0819:PsiDirectoryNode" />
-              <item name="GameLogic" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="SnakeIO" type="462c0819:PsiDirectoryNode" />
               <item name="Client" type="462c0819:PsiDirectoryNode" />
@@ -257,22 +249,14 @@
             </path>
             <path>
               <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="SnakeIO" type="462c0819:PsiDirectoryNode" />
               <item name="Server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="SnakeIO" type="462c0819:PsiDirectoryNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="GameLogic" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="slitherIO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetwerkProgrammeren" type="462c0819:PsiDirectoryNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="SnakeIO" type="462c0819:PsiDirectoryNode" />
               <item name="Server" type="462c0819:PsiDirectoryNode" />
@@ -385,11 +369,12 @@
       <workItem from="1591252800377" duration="4547000" />
       <workItem from="1591281173013" duration="1863000" />
       <workItem from="1591350639877" duration="3542000" />
+      <workItem from="1591521358796" duration="269000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29434000" />
+    <option name="totallyTimeSpent" value="29703000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
