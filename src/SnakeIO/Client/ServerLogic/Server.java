@@ -99,7 +99,6 @@ public class Server {
                                     ArrayList<DataSnake> dataSnakes = new ArrayList<>();
                                     for (int i = 0; i < amount; i++) {
                                         DataSnake dataSnake = (DataSnake) oIn.readObject();
-                                        System.out.println(dataSnake.getSnakePositions());
                                         dataSnakes.add(dataSnake);
 
                                         ArrayList<Point2D> positions = new ArrayList<>();
