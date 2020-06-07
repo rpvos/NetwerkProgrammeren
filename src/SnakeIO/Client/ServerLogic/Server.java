@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Server {
     private final String host;
     private final int port;
+    private String serverName;
 
     private Thread inputThread;
     private Thread outputThread;
@@ -54,7 +55,8 @@ public class Server {
             inputThread = new Thread(() -> {
                 try {
                     //display if connected succesfully
-                    System.out.println(dIn.readUTF());
+                    this.serverName = dIn.readUTF();
+                    System.out.println("Connected successfully to " + serverName);
 
                     //get the starting location of the snake
                     int x = dIn.readInt();
@@ -71,16 +73,16 @@ public class Server {
                         if (dataSnake.isDead())
                             snake.died();
 
-                        //if the server detected that e ate something, the snake is getting another part
+                        //if the server detected that the snake ate something, the snake is getting another part
                         if (dataSnake.isAte()) {
                             snake.hasEaten();
                         }
 
                         ArrayList<Point2D> fruits = (ArrayList<Point2D>) oIn.readObject();
+                        System.out.println(fruits);//todo remove
                         LogicHub.getLogicHub().setFruits(fruits);
                     }
                 } catch (ClassNotFoundException | IOException ignored) {
-
                 }
             });
 
@@ -125,7 +127,7 @@ public class Server {
 
     public void startInput() {
 //        if (inputThread != null)//todo ugly
-            inputThread.start();
+        inputThread.start();
     }
 
     public void disconnect() {
@@ -139,6 +141,9 @@ public class Server {
 
             oIn.close();
             oOut.close();
+
+            System.out.println("Disconnected from " + serverName);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

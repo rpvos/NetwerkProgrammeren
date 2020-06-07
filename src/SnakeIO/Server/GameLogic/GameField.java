@@ -13,6 +13,7 @@ public class GameField {
 
     private ArrayList<Snake> snakes;
     private ArrayList<Point2D> fruits;
+    private ArrayList<Integer> snakesToRemove;
 
     public void addSnake(Snake snake) {
         snake.setID(snakes.size());
@@ -23,9 +24,12 @@ public class GameField {
     public GameField() {
         this.snakes = new ArrayList<>();
         this.fruits = new ArrayList<>();
+        this.snakesToRemove = new ArrayList<>();
     }
 
     public void update(double deltaTime) {
+        removeSnakes();
+
         //update the movement
         for (Snake snake : snakes) {
             snake.update(deltaTime);
@@ -63,7 +67,7 @@ public class GameField {
             Point2D spot = validSpot();
             if (spot != null) {
                 fruits.add(spot);
-                System.out.println("fruit was added"+spot);
+                System.out.println("fruit was added" + spot);
             }
         }
     }
@@ -103,4 +107,13 @@ public class GameField {
     }
 
 
+    public void removeSnake(Snake snake) {
+        snakesToRemove.add(snake.getId());
+    }
+
+    private void removeSnakes() {
+        for (int i : snakesToRemove) {
+            snakes.removeIf(snake -> snake.getId() == i);
+        }
+    }
 }

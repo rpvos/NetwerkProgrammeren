@@ -128,4 +128,8 @@ public class Snake {
     public void setID(int id) {
         this.id = id;
     }
+
+    public int getId() {
+        return id;
+    }
 }

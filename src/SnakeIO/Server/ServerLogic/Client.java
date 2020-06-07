@@ -84,7 +84,7 @@ public class Client {
                 this.dOut = new DataOutputStream(socket.getOutputStream());
                 this.oOut = new ObjectOutputStream(socket.getOutputStream());
 
-                dOut.writeUTF("Connected successfully to " + Data.serverName);
+                dOut.writeUTF(Data.serverName);
 
                 Point2D pos = gameField.validSpot();
                 dOut.writeInt((int) pos.getX());
@@ -97,6 +97,7 @@ public class Client {
                         DataSnake snakeData = new DataSnake(snake.getPositions(), snake.getDirection(), snake.isAte(), snake.isDead());
                         oOut.writeObject(snakeData);
 
+                        System.out.println(gameField.getFruits());
                         oOut.writeObject(this.gamefield.getFruits());
                         timer.mark();
                     }
@@ -123,6 +124,8 @@ public class Client {
             dIn.close();
             oOut.close();
             oIn.close();
+
+            gamefield.removeSnake(snake);
 
             System.out.println(username + " disconnected from ip " + socket.getInetAddress());
         } catch (IOException | InterruptedException e) {

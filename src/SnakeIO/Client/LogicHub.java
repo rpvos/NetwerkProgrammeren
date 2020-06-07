@@ -68,7 +68,7 @@ public class LogicHub {
 
     public void setFruits(ArrayList<Point2D> positions) {
         this.newFruits = new ArrayList<>();
-
+        System.out.println(newFruits);//todo remove
         for (Point2D pos : positions) {
             newFruits.add(new Fruit(pos));
         }
