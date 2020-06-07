@@ -155,7 +155,8 @@ public class Server {
     }
 
     public void startInput() {
-        inputThread.start();
+        if (inputThread != null)
+            inputThread.start();
     }
 
     public void disconnect() {

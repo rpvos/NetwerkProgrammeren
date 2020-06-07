@@ -1,13 +1,14 @@
 package SnakeIO.Server.GameLogic;
 
+import SnakeIO.Data;
 import SnakeIO.Directions;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class Snake {
-    private static final double BLOCKSIZE = 20;
-    private static final double TIME_TO_MOVE = 0.5;
+    private static final double BLOCKSIZE = Data.BLOCKSIZE;
+    private static final double TIME_TO_MOVE = Data.TIME_TO_MOVE;
 
     private ArrayList<Point2D> positions;
     private Directions direction;

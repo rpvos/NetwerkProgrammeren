@@ -8,4 +8,8 @@ public class Data {
     public static final String DATASNAKE = "DataSnake";
     public static final String DATAFRUIT = "DataFruit";
     public static final String DATAOTHERSNAKES = "DataOtherSnakes";
+    public static final int BLOCKSIZE = 20;
+    public static final int FIELDSIZE = 20;
+    public static final int MAXFRUITS = 4;
+    public static final double TIME_TO_MOVE = 1;
 }

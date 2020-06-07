@@ -1,6 +1,7 @@
 package SnakeIO.Client.GameLogic;
 
 import SnakeIO.Client.Visual.GameObject;
+import SnakeIO.Data;
 import SnakeIO.DataSnake;
 import SnakeIO.Directions;
 import org.jfree.fx.FXGraphics2D;
@@ -11,8 +12,7 @@ import java.util.ArrayList;
 
 public class Snake implements GameObject {
     private ArrayList<Point2D> positions;
-    private static final double TIME_TO_MOVE = 0.5;
-    private final int BLOCKSIZE = 20;
+    private static final double TIME_TO_MOVE = Data.TIME_TO_MOVE;
 
     private Directions direction;
     private boolean hasEaten;
@@ -39,7 +39,7 @@ public class Snake implements GameObject {
     public void update(double deltaTime) {
         if (!isDead) {
             timer += deltaTime;
-            if (timer >=TIME_TO_MOVE) {
+            if (timer >= TIME_TO_MOVE) {
                 move();
                 timer -= TIME_TO_MOVE;
             }
@@ -94,7 +94,8 @@ public class Snake implements GameObject {
     public void draw(FXGraphics2D graphics) {
         for (Point2D pos : positions) {
             graphics.setColor(Color.RED);
-            graphics.fillRect((int) (BLOCKSIZE * pos.getX() - BLOCKSIZE / 2), (int) (BLOCKSIZE * pos.getY() - BLOCKSIZE / 2), BLOCKSIZE, BLOCKSIZE);
+            int blocksize = Data.BLOCKSIZE;
+            graphics.fillRect((int) (blocksize * pos.getX() - blocksize / 2), (int) (blocksize * pos.getY() - blocksize / 2), blocksize, blocksize);
         }
     }
 

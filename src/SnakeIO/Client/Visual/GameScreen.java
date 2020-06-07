@@ -1,5 +1,6 @@
 package SnakeIO.Client.Visual;
 
+import SnakeIO.Data;
 import SnakeIO.Directions;
 import SnakeIO.Client.LogicHub;
 import javafx.animation.AnimationTimer;
@@ -32,7 +33,7 @@ public class GameScreen extends Application {
 
         logicHub.start();
 
-        this.canvas = new Canvas(640, 420);
+        this.canvas = new Canvas(Data.FIELDSIZE*Data.BLOCKSIZE, Data.FIELDSIZE*Data.BLOCKSIZE);
         Group root = new Group(canvas);
         Scene gameScene = new Scene(root);
 

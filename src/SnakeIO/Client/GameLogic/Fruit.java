@@ -1,8 +1,10 @@
 package SnakeIO.Client.GameLogic;
 
 import SnakeIO.Client.Visual.GameObject;
+import SnakeIO.Data;
 import org.jfree.fx.FXGraphics2D;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class Fruit implements GameObject {
@@ -15,7 +17,10 @@ public class Fruit implements GameObject {
 
     @Override
     public void draw(FXGraphics2D graphics2D) {
-        graphics2D.drawRect((int) (20 * pos.getX()) - 10, (int) (20 * pos.getY()) + 10, 20, 20);
+        int blocksize = Data.BLOCKSIZE;
+
+        graphics2D.setColor(Color.blue);
+        graphics2D.drawRect((int) (blocksize * pos.getX()) - 10, (int) (blocksize * pos.getY()) + 10, blocksize, blocksize);
     }
 
     @Override

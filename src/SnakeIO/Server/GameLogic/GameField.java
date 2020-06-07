@@ -1,16 +1,13 @@
 package SnakeIO.Server.GameLogic;
 
+import SnakeIO.Data;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
 public class GameField {
-    private static final double SIZE = 20;
-    private final int playingfieldSize = 20;
-    private final int maxFruits = 3;
-
-
     private ArrayList<Snake> snakes;
     private ArrayList<Point2D> fruits;
     private ArrayList<Integer> snakesToRemove;
@@ -62,6 +59,7 @@ public class GameField {
         }
 
         //spawn new fruit
+        int maxFruits = Data.MAXFRUITS;
         if (fruits.size() < maxFruits) {
             Point2D spot = validSpot();
             if (spot != null) {
@@ -76,6 +74,7 @@ public class GameField {
         Point2D point = null;
         int tries = 0;
         while (!foundPoint && tries < 10) {
+            int playingfieldSize = Data.FIELDSIZE;
             int x = random.nextInt(playingfieldSize);
             int y = random.nextInt(playingfieldSize);
             point = new Point2D.Double(x, y);
@@ -96,10 +95,6 @@ public class GameField {
         return point;
     }
 
-    public static double getSIZE() {
-        return SIZE;
-    }
-
     public ArrayList<Point2D> getFruits() {
         return fruits;
     }
@@ -110,8 +105,12 @@ public class GameField {
     }
 
     private void removeSnakes() {
-        for (int i : snakesToRemove) {
-            snakes.removeIf(snake -> snake.getId() == i);
+        try {
+            for (int i : snakesToRemove) {
+                snakes.removeIf(snake -> snake.getId() == i);
+            }
+        } catch (NullPointerException e) {
+            System.out.println("No players left");
         }
     }
 }
